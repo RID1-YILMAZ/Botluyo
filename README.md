@@ -7,12 +7,12 @@
   <img alt="Node.js 18+" src="https://img.shields.io/badge/Node.js-18%2B-3c873a?style=flat-square&logo=nodedotjs&logoColor=white">
   <img alt="Platform: Topluyo" src="https://img.shields.io/badge/platform-Topluyo-667eea?style=flat-square">
   <img alt="132 API blocks" src="https://img.shields.io/badge/API%20blocks-132-764ba2?style=flat-square">
-  <img alt="No install" src="https://img.shields.io/badge/editor-no%20install-222?style=flat-square">
+  <img alt="Canlı editör" src="https://img.shields.io/badge/edit%C3%B6r-GitHub%20Pages-222?style=flat-square">
 </p>
 
-Kod yazmadan [Topluyo](https://topluyo.com) botu tasarlamanı sağlayan blok editörü. Blokları sürükle, sağda oluşan Node.js kodunu izle, hazır projeyi ZIP olarak indir.
+Kod yazmadan [Topluyo](https://topluyo.com) botu kurman için blok editörü. Canlı sürüm: [rid1-yilmaz.github.io/Botluyo](https://rid1-yilmaz.github.io/Botluyo/)
 
-Bot çalışınca [`topluyo-bot`](https://github.com/topluyo/TopluyoBOTJS) kütüphanesiyle Topluyo'ya bağlanır. Editörün kendisi bir sunucu değildir: tarayıcıda sadece kod üretir.
+Blokları iç içe tak, sağda oluşan Node.js kodunu oku, ZIP indir. Bot çalışınca [`topluyo-bot`](https://github.com/topluyo/TopluyoBOTJS) ile Topluyo'ya bağlanır. Editör botu tarayıcıda çalıştırmaz, sadece kod üretir.
 
 ## Türkçe
 
@@ -22,10 +22,17 @@ Bot çalışınca [`topluyo-bot`](https://github.com/topluyo/TopluyoBOTJS) küt�
 - [Hızlı başlangıç](#hızlı-başlangıç)
 - [Arayüz](#arayüz)
 - [Bloklar](#bloklar)
+- [Dinle](#dinle)
+- [Gelen veri](#gelen-veri)
+- [API](#api)
+- [Mantık, döngü, matematik](#mantık-döngü-matematik)
+- [Metin](#metin)
+- [Değişkenler](#değişkenler)
+- [Yardımcı](#yardımcı)
 - [Üretilen kod](#üretilen-kod)
 - [Çoklu dosya](#çoklu-dosya)
-- [ZIP ile dışa aktarma](#zip-ile-dışa-aktarma)
-- [Örnekler](#örnekler)
+- [ZIP](#zip)
+- [Hazır botlar](#hazır-botlar)
 - [Token ve güvenlik](#token-ve-güvenlik)
 - [Kayıt](#kayıt)
 - [API listesinin tamamı](#api-listesinin-tamamı)
@@ -35,34 +42,33 @@ Bot çalışınca [`topluyo-bot`](https://github.com/topluyo/TopluyoBOTJS) küt�
 - [Dosyalar](#dosyalar)
 - [English](#english)
 
+Her kod başlığının altında aynı kalıp var: önce **dizilim** (hangi blok hangisinin içinde), sonra **işlev** (bot ne yapar), sonra üreticinin çıkardığı kaynak.
+
 ### Ne işe yarar
 
-Botluyo, [Blockly 10.4.3](https://developers.google.com/blockly) üzerine kurulu bir Topluyo bot IDE'sidir. Araç kutusundaki her blok, `app.js` içindeki üreticiyle JavaScript'e çevrilir.
+Botluyo, [Blockly 10.4.3](https://developers.google.com/blockly) üzerine kurulu bir Topluyo bot IDE'sidir. Araç kutusundaki her blok `app.js` içindeki üreticiyle JavaScript'e çevrilir.
 
-Yapabildikleri:
+- Mesaj, mention, form, özel mesaj, Turbo, gruba katılma, ayrılma ve atılmayı dinler.
+- Bağlanınca bir kez çalışır, ya da saniye cinsinden zamanlayıcı kurar.
+- Olayın içinden kullanıcı, kanal, mesaj, grup, gönderi, form ve Turbo alanlarını okur.
+- `api.js` içindeki **132** [Topluyo API](https://topluyo.com/!api) ucunu blok olarak çağırır.
+- Mantık, döngü, matematik, metin ve değişken bloklarını kullanır.
+- Projeyi birden fazla `.js` dosyasına böler.
+- Yanlış yere konmuş bloğu, koda girmeden Blockly uyarısıyla gösterir.
+- `index.js`, modüller, `package.json`, `.token.json`, `.gitignore` ve kısa bir `README.md` içeren ZIP indirir.
+- Tuvali bu tarayıcıda otomatik saklar.
 
-- Mesaj, mention, form, özel mesaj, Turbo transferi, gruba katılma, ayrılma ve atılma olaylarını dinlemek
-- Bot bağlandığında bir kez çalışan bir şapka blok ve saniye cinsinden zamanlayıcı
-- Olayın içinden kullanıcı, kanal, mesaj, grup, gönderi, form alanı ve Turbo alanlarını okumak
-- [Topluyo API](https://topluyo.com/!api) yüzeyinin `api.js` içine alınmış **132 uç noktasını** blok olarak çağırmak
-- Blockly'nin mantık, döngü, matematik, metin ve değişken bloklarını kullanmak
-- Birden fazla `.js` dosyasına bölünmüş proje tutmak
-- Sağ panelde, o an açık dosyanın kodunu canlı görmek
-- Yanlış yere konmuş blokları, koda girmeden önce Blockly uyarısıyla göstermek
-- `index.js`, ek modüller, `package.json`, `.token.json`, `.gitignore` ve kısa bir `README.md` içeren ZIP indirmek
-- Çalışmanı bu tarayıcıda otomatik saklamak
+Yapmaz:
 
-Yapmadıkları:
-
-- Botu tarayıcının içinde çalıştırmaz. Test için ZIP'i Node.js 18+ ile açman gerekir.
-- Token'ı hiçbir sunucuya göndermez. Token yalnızca sen **Tokenli indir** dersen ZIP'teki `.token.json` dosyasına yazılır.
-- `api.js` bir anlık görüntüdür. Topluyo yeni bir uç nokta eklerse, o blok kendiliğinden gelmez.
+- Botu tarayıcıda çalıştırmaz. Test için ZIP'i Node.js 18+ ile aç.
+- Token'ı sunucuya göndermez. Token yalnız **Tokenli indir** dersen ZIP'teki `.token.json` dosyasına yazılır.
+- API listesini kendiliğinden güncellemez. `api.js` bir anlık görüntüdür.
 
 ```mermaid
 flowchart LR
   subgraph tarayici [Tarayıcı]
     B[Blockly tuvali]
-    A[api.js tablosu]
+    A[api.js]
     G[app.js üretici]
   end
   B --> G
@@ -75,26 +81,13 @@ flowchart LR
 
 ### Hızlı başlangıç
 
-Editör için npm, derleme veya hesap gerekmez. Blockly dosyaları jsDelivr'den geldiği için sayfa açıkken internet gerekir.
+Editör hazır: [rid1-yilmaz.github.io/Botluyo](https://rid1-yilmaz.github.io/Botluyo/)
 
-```bash
-git clone https://github.com/RID1-YILMAZ/Botluyo.git
-cd Botluyo
-```
-
-`index.html` dosyasını tarayıcıda aç. İstersen küçük bir statik sunucu da kullanabilirsin:
-
-```bash
-python3 -m http.server 8080
-```
-
-Sonra `http://127.0.0.1:8080` adresine gir.
-
-1. Soldaki **🎧 Dinle** kategorisinden bir olay bloğu çıkar.
-2. İçine yapılacak işi tak. Boşta duran bloklar koda yazılmaz.
-3. Sağdaki önizlemede uyarı ve kodu kontrol et.
+1. Sayfayı aç.
+2. **🎧 Dinle** içinden bir olay çıkar, yapılacak işi onun içine tak. Boşta duran blok koda yazılmaz.
+3. Sağdaki önizlemede uyarıya ve koda bak.
 4. **📦 Botu Hazırla** ile ZIP indir.
-5. İndirdiğin projeyi çalıştır:
+5. Çalıştır:
 
 ```bash
 unzip topluyo-bot.zip -d botum
@@ -103,267 +96,25 @@ npm install
 npm start
 ```
 
-`.token.json` düz bir JSON metnidir, nesne değildir:
+`.token.json` bir JSON metnidir, nesne değildir:
 
 ```json
 "BURAYA_TOKENINIZI_YAZIN"
 ```
 
-Token'ı indirmeden önce girmek istersen penceredeki **🔑 Tokenli indir** düğmesini kullan.
+İndirmeden önce girmek için **🔑 Tokenli indir**. Rumuz `bot` ile **başlamalı ya da bitmelidir** (`botMuzo`, `MuzoBot`). Token, Topluyo'da **Cihazlarım** bölümündedir. Kütüphane: [topluyo-bot](https://github.com/topluyo/TopluyoBOTJS).
 
-Bot hesabının rumuzu `bot` ile **başlamalı ya da bitmelidir** (`botMuzo`, `MuzoBot`). Token, Topluyo'da **Cihazlarım** bölümünden alınır. Ayrıntı için [topluyo-bot](https://github.com/topluyo/TopluyoBOTJS) belgesine bak.
+**Örnek dizilim**
 
-### Arayüz
-
-Sayfa iki bölmedir. 900 pikselin altında alt alta iner, tuval yüksekliği ekranın yaklaşık üçte ikisi olur.
-
-| Bölge | Ne var |
-|---|---|
-| Üst şerit | `🤖 Botluyo` başlığı |
-| Dosya sekmeleri | `index.js` ve eklediğin modüller, **＋ Dosya**, `index.js` dışında **🗑️** |
-| Tuval | Izgara, yakınlaştırma, çöp kutusu, tekerlekle zoom. Başlangıç ölçeği 0.9 |
-| **📦 Botu Hazırla** | İndirme penceresini açar |
-| Dosya ağacı | Açık dosyayı seçer. `package.json`, `.token.json`, `.gitignore` ve dışa aktarılan `README.md` ağaçta görünür ama düzenlenemez |
-| Kod önizleme | Yalnızca seçili dosyanın üretilmiş kaynağı |
-
-İndirme penceresi:
-
-- **💾 Derlenmiş dosyaları indir (.zip)** — token yer tutucusuyla iner
-- Token alanı — `type="password"`, tarayıcıya kaydettirilmez
-- **🔑 Tokenli indir** — alan boşsa indirmez, kısa bir uyarı gösterir
-- Kapat
-
-### Bloklar
-
-Bir **şapka** (olay, bağlanma veya zamanlayıcı) yeni bir dinleyici açar. Gövdesine takılan bloklar o dinleyicinin içine yazılır. Şapkanın dışında kalan hiçbir blok üretilen dosyaya girmez; üzerinde şu uyarı görünür:
-
-> Bu blok bir olay bloğunun içinde değil, koda eklenmez.
-
-Gelen-veri blokları yanlış olayın içindeyse üretici yine de ifadeyi yazar, ama blok uyarı verir. Örneğin kanal kimliği yalnızca mesaj ve mention olaylarında vardır.
-
-#### Dinle
-
-Hepsi turuncu şapkadır. Mesaj türevi olaylar `bot.on('message', ...)` dinler ve `data.action` ile süzülür. Alan adları [topluyo-bot olay tablosundan](https://github.com/topluyo/TopluyoBOTJS) alınmıştır.
-
-| Blok | Üretilen dinleyici | Olayda gelenler |
-|---|---|---|
-| 📨 Mesaj gelince | `data.action === 'post/add'` | `message`, `channel_id`, `user_id` |
-| 🔔 Mention (bildirim) gelince | `data.action === 'post/mention'` | `message`, `channel_id`, `user_id` |
-| 📋 Form gönderilince | `data.action === 'post/bumote'` | `message.form`, `message.submit`, `post_id`, `user_id` |
-| 💬 Özel mesaj gelince | `data.action === 'message/send'` | `message`, `user_id` |
-| 💸 Turbo transferi gelince | `data.action === 'turbo/transfer'` | `message.quantity`, `message.message`, `transfer_id`, `user_id` |
-| ➕ Gruba biri katılınca | `data.action === 'group/join'` | `group_id`, `user_id` |
-| ➖ Gruptan biri ayrılınca | `data.action === 'group/leave'` | `group_id`, `user_id` |
-| 🚪 Gruptan biri atılınca | `data.action === 'group/kick'` | `group_id`, `user_id` |
-| 🟢 Bot bağlanınca | `bot.on('connected', ...)` | `data` yok |
-| ⏰ Her N saniyede bir | `setInterval(..., N * 1000)` | `data` yok. Süre en az 1 saniye, blok üzerindeki sayı alanındadır |
-
-Aynı ada sahip bir API yolu, dinleyiciyle aynı şey değildir.
-
-- **Form gönderilince** gelen bir olayı dinler. Araç kutusundaki **Gönderi → Bumote ekle** ise `/!api/post/bumote` çağırır.
-- **Özel mesaj gelince** gelen mesajı yakalar. **Özel mesaj → Özel mesaj gönder** ise `/!api/message/send` çağırır.
-- **Gruptan biri atılınca** bir atılmayı haber verir. Birini sen atmak için **Üye → Üyeyi gruptan at** (`/!api/member/kick`) kullanırsın.
-
-Her şapkanın gövdesi kendi `try/catch` bloğuna sarılır. Hata konsola `Blok hatası:` diye düşer, süreç ayakta kalır.
-
-`index.js` şablonunun içinde, senin bloklarından bağımsız ikinci bir `connected` dinleyicisi de vardır. O sadece `Bot bağlandı ✅` yazar. Kendin de **Bot bağlanınca** eklersen ikisi birden çalışır.
-
-#### Gelen veri
-
-Bu bloklar değer üretir, kendi başlarına bir satır değildir. Yalnızca tablodaki olayların şapkasına takıldıklarında uyarı vermezler.
-
-| Blok | Kod | Geçerli olduğu olaylar |
-|---|---|---|
-| 👤 Kullanıcı ID (olayı yapan) | `data.user_id` | Sekiz mesaj olayının hepsi |
-| 📺 Kanal ID | `data.channel_id` | Mesaj, mention |
-| 💬 Mesaj metni | `data.message` | Mesaj, mention, özel mesaj |
-| 👥 Grup ID | `data.group_id` | Katılma, ayrılma, atılma |
-| 🧾 Gönderi ID | `data.post_id` | Form |
-| 🔘 Form buton etiketi | `data.message.submit` | Form |
-| 📋 Form alanı | `data.message.form[alan]` | Form |
-| 💰 Turbo miktarı | `data.message.quantity` | Turbo transferi |
-| 📝 Turbo notu | `data.message.message` | Turbo transferi |
-| 🔢 Transfer ID | `data.transfer_id` | Turbo transferi |
-
-Form alanı bir değer yuvası ister. İçine bir metin bloğuyla alanın adını yazarsın (`ad`, `yas`). Üretilen ifade `data.message.form['ad']` biçimindedir.
-
-Bağlanma ve zamanlayıcı şapkalarında `data` yoktur. Bu değer bloklarını oraya takma.
-
-#### API
-
-**🌐 API (tüm özellikler)** kategorisi `api.js` okunurken kurulur. 21 grup, 132 blok. Grup adı ve Blockly renk tonu dosyadaki `## Grup|ton` satırından gelir.
-
-Her API bloğu bir satırdır ve yanıtı `_son` değişkenine bırakır:
-
-```js
-_son = await bot.post("/!api/post/add", { channel_id: data.channel_id, text: 'Merhaba' });
+```text
+📨 Mesaj gelince
+└─ eğer  💬 Mesaj metni  =  !merhaba
+   └─ 🌐 Gönderi gönder
+        channel_id: 📺 Kanal ID
+        text:       Merhaba!
 ```
 
-Alan kuralları, üreticide birebir böyledir:
-
-- Boş bırakılan veya boş metne denk gelen alan gövdeye **yazılmaz**.
-- `api.js` içinde `#` ile işaretli alanlar sayıdır. Değeri `'42'` gibi düz bir sayı metniyse tırnaklar kalkar ve `42` olur.
-- Değişken, `data.user_id` veya bir hesap ifadesi olduğu gibi kalır. Sayı alanı diye zorla sayıya çevrilmez.
-- Üçten az veya eşit alanlı bloklar yatay, daha kalabalık bloklar alt alta dizilir.
-- İstekler `bot.post` ile gider. `topluyo-bot` bu çağrıları hız sınırına takılmamak için kendi içinde toplu gönderir.
-
-Son yanıtı okumak için **🧰 Yardımcı** kategorisindeki iki blok vardır:
-
-| Blok | Kod |
-|---|---|
-| 📦 Son API yanıtı | `_son` |
-| 📦 Son yanıtın … alanı | `_son ? _son[alan] : undefined` |
-
-`_son` dosya başına tektir. Aynı dosyada her başarılı API çağrısı bir öncekini ezer. Başka bir dosyanın `_son` değeri görünmez.
-
-Uç noktaların tam listesi [aşağıda](#api-listesinin-tamamı).
-
-#### Mantık, döngü, matematik
-
-Blockly'nin kendi bloklarıdır. Türkçe arayüz `msg/tr.js` ile gelir.
-
-| Kategori | Bloklar |
-|---|---|
-| 🔀 Mantık | eğer, karşılaştırma, ve/veya, değil, doğru/yanlış |
-| 🔁 Döngü | tekrarla, şu koşul sağlandıkça, döngüyü kes / devam et |
-| 🔢 Matematik | sayı, dört işlem, iki sayı arasında rastgele tam sayı, mod |
-
-Karşılaştırma operatörü Blockly'nin ürettiği JavaScript'tir (`==`, `>`, `>=` ve benzeri). `Eğer` bir şapkanın veya başka bir `eğer`in içine takılır.
-
-Döngüler olayın `async` fonksiyonunun içinde çalışır. Bitmeyen bir `şöyle iken` döngüsü o olayı kilitler. Beklemeli tekrar için **Bekle** bloğunu kullan.
-
-#### Metin
-
-| Blok | Ne üretir |
-|---|---|
-| Metin, birleştir, uzunluk | Blockly'nin metin blokları |
-| … şununla başlıyor mu | `String(a).startsWith(b)` |
-| … içinde geçiyor mu | `String(a).includes(b)` |
-| … metninin N. kelimesi | Boşluklardan böl, 1'den say. Yoksa `''` |
-
-Kelime sayacı 1 tabanlıdır. `!ban Ali` metninin 2. kelimesi `Ali` olur.
-
-#### Değişkenler
-
-**📦 Değişkenler** Blockly'nin standart değişken kategorisidir. Adı sen koyarsın. Değişken, tanımlandığı dosyanın ve içinde bulunduğu fonksiyonun kapsamında kalır. `yardim.js` içindeki değişken `index.js` tarafından görülmez.
-
-Üretici `data`, `bot`, `TOKEN`, `TopluyoBOT`, `err`, `require`, `console` ve `_son` adlarını ayırır. Değişkenine bu adları verme.
-
-#### Yardımcı
-
-| Blok | Kod |
-|---|---|
-| 🖨️ Konsola yaz | `console.log(...)` |
-| ⏱️ Bekle | `await new Promise(r => setTimeout(r, (saniye) * 1000))` |
-
-Bekle saniye cinsindendir. Zamanlayıcı şapkası da saniye alır, ama o bir kezlik bekleme değil, kendini tekrar eden `setInterval`'dır. Aralık süreç kapanana kadar sürer, silinmez.
-
-### Üretilen kod
-
-`index.js` her zaman şu iskeletle başlar. Altına, tuvaldeki şapkaların kodu eklenir. Ek dosyalar `require` ile, şapkalardan **önce** yüklenir.
-
-```js
-// index.js — Botluyo ile oluşturuldu
-const TopluyoBOT = require('topluyo-bot');
-const TOKEN = require('./.token.json');
-const bot = TopluyoBOT(TOKEN);
-let _son;
-
-bot.on('connected', () => console.log('Bot bağlandı ✅'));
-bot.on('auth_problem', () => console.error('Token geçersiz! "Cihazlarım" bölümünden yenisini alın.'));
-bot.on('error', (err) => console.error('Hata:', err));
-
-require('./yardim.js')(bot);
-
-// ... şapka bloklarının kodu
-```
-
-Mesaj türevi bir şapka şöyle iner:
-
-```js
-bot.on('message', async (data) => {
-  if (data.action === 'post/add') {
-    try {
-      // gövde, iki seviye içeride
-    } catch (err) {
-      console.error('Blok hatası:', err);
-    }
-  }
-});
-```
-
-Bağlanma:
-
-```js
-bot.on('connected', async () => {
-  try {
-    // gövde
-  } catch (err) {
-    console.error('Blok hatası:', err);
-  }
-});
-```
-
-Zamanlayıcı, alan 60 ise:
-
-```js
-setInterval(async () => {
-  try {
-    // gövde
-  } catch (err) {
-    console.error('Blok hatası:', err);
-  }
-}, 60000);
-```
-
-`auth_problem` gelirse kütüphane yeniden bağlanmaz. Token'ı Cihazlarım'dan yenilemen gerekir. `error` bir soket hatasıdır. Bağlantı kopunca yeniden deneme `topluyo-bot`'un kendi işidir.
-
-### Çoklu dosya
-
-Projede her zaman bir `index.js` vardır. Silinemez.
-
-**＋ Dosya** bir ad sorar. Ad küçük harfe çevrilir, Türkçe karakterler sadeleşir (`çğıöşü` → `cgiosu`), `.js` uzantısı sen yazsan da bir kez eklenir. `index.js` ve kullanılmakta olan bir ad reddedilir.
-
-`yardim-menusu.js` şöyle dışa aktarılır:
-
-```js
-// yardim-menusu.js — Botluyo ile oluşturuldu
-module.exports = (bot) => {
-  let _son;
-  // bu dosyanın şapkaları
-};
-```
-
-Dosyalar birbirinin değişkenini ve `_son` değerini görmez. Ortak olan tek nesne `bot`'tur. Ortak bir bellek istersen Topluyo'daki **Park** uçlarını (`park/set`, `park/list`, `park/del`) veya tek dosyada kalmayı tercih et.
-
-Sekmeler arasında geçerken açık tuval Blockly serileştirmesiyle saklanır, diğeri geri yüklenir.
-
-### ZIP ile dışa aktarma
-
-ZIP tarayıcıda kurulur. Harici bir sıkıştırma kütüphanesi yoktur. Dosyalar sıkıştırmasız (store) yazılır, UTF-8 adları ve CRC32 vardır.
-
-| Dosya | İçerik |
-|---|---|
-| `index.js` | Şablon + senin şapkaların |
-| `*.js` | Varsa diğer modüller |
-| `package.json` | `name`: `topluyo-bot-projesi`, `start`: `node index.js`, `engines.node`: `>=18`, bağımlılık `topluyo-bot` sürümü `latest` |
-| `.token.json` | Girdiğin token ya da `"BURAYA_TOKENINIZI_YAZIN"` |
-| `.gitignore` | `.token.json` ve `node_modules/` |
-| `README.md` | Üç satırlık çalıştırma notu. Bu deponun belgesi değil |
-
-İndirilen arşivin adı her zaman `topluyo-bot.zip` olur.
-
-`topluyo-bot` sürümü sabitlenmez. `npm install` o anki son sürümü alır. Yayınladığın bir botu kilitlemek istersen indirdikten sonra `package.json` içine gördüğün sürümü yaz.
-
-### Örnekler
-
-Aşağıdaki kaynaklar, ilgili bloklar takıldığında üreticinin çıkardığı biçimdedir. Önizleme paneli senin tuvalin için tam metni gösterir.
-
-#### `!merhaba` yanıtı
-
-1. **📨 Mesaj gelince**
-2. İçine **eğer**: mesaj metni `==` `!merhaba`
-3. Eğerin içine **Gönderi → Gönderi gönder**: kanal yuvasına **📺 Kanal ID**, `text` yuvasına `Merhaba!`
+**İşlev:** Birisi kanala `!merhaba` yazınca bot aynı kanala `Merhaba!` yollar.
 
 ```js
 bot.on('message', async (data) => {
@@ -379,34 +130,432 @@ bot.on('message', async (data) => {
 });
 ```
 
-#### Mention'a cevap
+### Arayüz
 
-**🔔 Mention (bildirim) gelince** içine, kanal kimliğiyle bir gönderi koy. Mention metninde bir kelime arayacaksan **içinde geçiyor mu** bloğunu eğer koşuluna tak.
+Sayfa iki bölmedir. 900 pikselin altında alt alta iner.
 
-#### Komutun ikinci kelimesi
+| Bölge | Ne var |
+|---|---|
+| Üst şerit | `🤖 Botluyo` |
+| Sekmeler | `index.js`, ek dosyalar, **＋ Dosya**, `index.js` dışında **🗑️** |
+| Tuval | Izgara, zoom, çöp kutusu. Başlangıç ölçeği 0.9 |
+| **📦 Botu Hazırla** | İndirme penceresi |
+| Dosya ağacı | Dosya seçer. `package.json`, `.token.json`, `.gitignore`, dışa aktarılan `README.md` görünür, düzenlenemez |
+| Kod | Yalnızca açık dosyanın üretimi |
 
-Mesaj dinleyicisinin içinde:
+İndirme penceresi: yer tutuculu ZIP, parola alanına token, **Tokenli indir** (boşsa inmez), Kapat. Token alana yazılsa bile `localStorage`'a konmaz.
 
-- eğer: mesaj `şununla başlıyor mu` `!selam`
-- konsola yaz: mesajın `2`. kelimesi
+### Bloklar
 
-`!selam Ada` için konsola `Ada` düşer.
+**Şapka** (olay, bağlanma, zamanlayıcı) bir dinleyici açar. Gövdesine takılanlar o dinleyicinin içine yazılır. Dışarıda kalan blok dosyaya girmez:
+
+> Bu blok bir olay bloğunun içinde değil, koda eklenmez.
+
+Yanlış olayda kullanılan veri bloğu yine de yazılır, ama uyarı verir. Uyarıyı yok sayma. Her şapkanın gövdesi kendi `try/catch` içindedir. Hata `Blok hatası:` diye konsola düşer, süreç kapanmaz.
+
+#### Dinle
+
+Turuncu şapkalar. Mesaj türleri `bot.on('message', ...)` dinler ve `data.action` ile süzülür. Alanlar [topluyo-bot](https://github.com/topluyo/TopluyoBOTJS) olay tablosundandır.
+
+| Blok | Dinleyici | Gelenler |
+|---|---|---|
+| 📨 Mesaj gelince | `post/add` | `message`, `channel_id`, `user_id` |
+| 🔔 Mention (bildirim) gelince | `post/mention` | `message`, `channel_id`, `user_id` |
+| 📋 Form gönderilince | `post/bumote` | `message.form`, `message.submit`, `post_id`, `user_id` |
+| 💬 Özel mesaj gelince | `message/send` | `message`, `user_id` |
+| 💸 Turbo transferi gelince | `turbo/transfer` | `message.quantity`, `message.message`, `transfer_id`, `user_id` |
+| ➕ Gruba biri katılınca | `group/join` | `group_id`, `user_id` |
+| ➖ Gruptan biri ayrılınca | `group/leave` | `group_id`, `user_id` |
+| 🚪 Gruptan biri atılınca | `group/kick` | `group_id`, `user_id` |
+| 🟢 Bot bağlanınca | `bot.on('connected')` | `data` yok |
+| ⏰ Her N saniyede bir | `setInterval`, en az 1 sn | `data` yok |
+
+Aynı adlı API yolu dinleyici değildir.
+
+- **Form gönderilince** gelen formu dinler. **Gönderi → Bumote ekle** ise `/!api/post/bumote` çağırır.
+- **Özel mesaj gelince** geleni yakalar. **Özel mesaj gönder** ise `/!api/message/send` çağırır.
+- **Gruptan biri atılınca** haberdar eder. Sen atmak için **Üye → Üyeyi gruptan at** (`/!api/member/kick`).
+
+`index.js` şablonu ayrıca `Bot bağlandı ✅` yazan bir `connected` dinleyicisi koyar. **Bot bağlanınca** eklersen ikisi de çalışır.
+
+**Örnek dizilim**
+
+```text
+🔔 Mention (bildirim) gelince
+└─ 🌐 Gönderi gönder
+     channel_id: 📺 Kanal ID
+     text:       Buyur
+```
+
+**İşlev:** Birisi botu etiketleyince bot aynı kanala `Buyur` yazar.
+
+```js
+bot.on('message', async (data) => {
+  if (data.action === 'post/mention') {
+    try {
+      _son = await bot.post("/!api/post/add", { channel_id: data.channel_id, text: 'Buyur' });
+    } catch (err) {
+      console.error('Blok hatası:', err);
+    }
+  }
+});
+```
+
+Öbür şapkaların kısa karşılığı:
+
+| Dizilim | İşlev |
+|---|---|
+| 📨 Mesaj gelince → 🖨️ Konsola yaz → 💬 Mesaj metni | Her gönderiyi konsola basar |
+| 📋 Form gönderilince → 🖨️ Konsola yaz → 🔘 Form buton etiketi | Basılan butonun yazısını basar |
+| 💬 Özel mesaj gelince → 🌐 Özel mesaj gönder, kullanıcı 👤, message `oldu` | Gelen özel mesaja `oldu` diye cevap verir |
+| 💸 Turbo transferi gelince → 🖨️ Konsola yaz → 💰 Turbo miktarı | Gelen Turbo miktarını basar |
+| ➕ Gruba biri katılınca → 🖨️ Konsola yaz → 👤 Kullanıcı ID | Katılanın kimliğini basar |
+| ➖ Gruptan biri ayrılınca → 🖨️ Konsola yaz → 👥 Grup ID | Ayrılmanın olduğu grubu basar |
+| 🚪 Gruptan biri atılınca → 🖨️ Konsola yaz → 👤 Kullanıcı ID | Atılanın kimliğini basar |
+| 🟢 Bot bağlanınca → 🖨️ Konsola yaz → `açıldım` | Bağlanınca bir kez `açıldım` yazar |
+| ⏰ Her 60 saniyede bir → 🌐 Sunucu saatini getir | Dakikada bir `/!api/test/time` çağırır |
+
+#### Gelen veri
+
+Değer üretirler, tek başlarına satır olmazlar. Yalnızca aşağıdaki olaylarda uyarı vermezler.
+
+| Blok | Kod | Olay |
+|---|---|---|
+| 👤 Kullanıcı ID (olayı yapan) | `data.user_id` | Sekiz mesaj olayının hepsi |
+| 📺 Kanal ID | `data.channel_id` | Mesaj, mention |
+| 💬 Mesaj metni | `data.message` | Mesaj, mention, özel mesaj |
+| 👥 Grup ID | `data.group_id` | Katılma, ayrılma, atılma |
+| 🧾 Gönderi ID | `data.post_id` | Form |
+| 🔘 Form buton etiketi | `data.message.submit` | Form |
+| 📋 Form alanı | `data.message.form[alan]` | Form |
+| 💰 Turbo miktarı | `data.message.quantity` | Turbo |
+| 📝 Turbo notu | `data.message.message` | Turbo |
+| 🔢 Transfer ID | `data.transfer_id` | Turbo |
+
+Form alanı bir yuva ister. İçine metin bloğuyla anahtarı yaz (`ad`). Çıktı `data.message.form['ad']` olur. Bağlanma ve zamanlayıcıda `data` yoktur.
+
+**Örnek dizilim**
+
+```text
+📋 Form gönderilince
+└─ eğer  🔘 Form buton etiketi  =  kaydet
+   └─ 🖨️ Konsola yaz
+        └─ 📋 Form alanı
+             └─ ad
+```
+
+**İşlev:** Formda `kaydet` butonuna basılınca, formdaki `ad` alanını konsola yazar.
+
+```js
+bot.on('message', async (data) => {
+  if (data.action === 'post/bumote') {
+    try {
+      if (data.message.submit == 'kaydet') {
+        console.log(data.message.form['ad']);
+      }
+    } catch (err) {
+      console.error('Blok hatası:', err);
+    }
+  }
+});
+```
+
+#### API
+
+**🌐 API (tüm özellikler)** `api.js` okununca kurulur. 21 grup, 132 blok. Her blok bir satırdır ve yanıtı `_son` içine bırakır.
+
+```js
+_son = await bot.post("/!api/post/add", { channel_id: data.channel_id, text: 'Merhaba' });
+```
+
+- Boş yuva gövdeye yazılmaz.
+- `#` ile işaretli alan düz sayıysa (`'42'`) tırnak düşer, `42` kalır.
+- Değişken ve `data.user_id` olduğu gibi kalır, zorla sayıya çevrilmez.
+- Üçten az ya da eşit alan yatay, fazlası alt alta durur.
+- `bot.post` çağrılarını `topluyo-bot` hız sınırına karşı kendi içinde toplar.
+
+Son yanıt, **🧰 Yardımcı** içinden okunur: **📦 Son API yanıtı** → `_son`, **📦 Son yanıtın … alanı** → `_son ? _son[alan] : undefined`. `_son` dosya başına tektir. Her yeni çağrı öncekini ezer. Başka dosyanın `_son` değeri görünmez.
+
+**Örnek dizilim**
+
+```text
+🟢 Bot bağlanınca
+├─ 🌐 Kullanıcı ID'mi getir
+└─ 🖨️ Konsola yaz
+     └─ 📦 Son API yanıtı
+```
+
+**İşlev:** Bağlanınca `/!api/user/id` çağırır ve dönen nesneyi konsola basar. Ucun alanı olmadığı için gövde `{}` olur.
+
+```js
+bot.on('connected', async () => {
+  try {
+    _son = await bot.post("/!api/user/id", {});
+    console.log(_son);
+  } catch (err) {
+    console.error('Blok hatası:', err);
+  }
+});
+```
+
+Uçların tamamı [aşağıda](#api-listesinin-tamamı). Adlar araç kutusundaki Türkçe yazılardır.
+
+#### Mantık, döngü, matematik
+
+Blockly bloklarıdır. Arayüz `msg/tr.js` ile Türkçedir.
+
+| Kategori | Bloklar |
+|---|---|
+| 🔀 Mantık | eğer, karşılaştırma, ve/veya, değil, doğru/yanlış |
+| 🔁 Döngü | tekrarla, şöyle iken / olana kadar, kır / devam |
+| 🔢 Matematik | sayı, dört işlem, rastgele tam sayı, mod |
+
+Karşılaştırma Blockly'nin ürettiği işleçtir (`==`, `>`, `>=`). Bitmeyen `şöyle iken` o olayı kilitler.
+
+**Örnek dizilim**
+
+```text
+📨 Mesaj gelince
+└─ eğer  💬 Mesaj metni  =  !ping
+   └─ 🌐 Gönderi gönder
+        channel_id: 📺 Kanal ID
+        text:       pong
+```
+
+**İşlev:** `!ping` yazılınca aynı kanala `pong` yollar. `!merhaba` örneğiyle aynı iskelet, koşul ve metin değişir.
+
+Döngü dizilimi, aynı şapkanın içinde:
+
+```text
+tekrarla 3 kez
+└─ 🖨️ Konsola yaz
+     └─ tik
+```
+
+**İşlev:** O olay her geldiğinde konsola üç kez `tik` yazar. Bu bir zamanlayıcı değildir. Zaman aralığı için **⏰ Her N saniyede bir** kullan.
+
+#### Metin
+
+| Blok | Üretir |
+|---|---|
+| Metin, birleştir, uzunluk | Blockly metin blokları |
+| … şununla başlıyor mu | `String(a).startsWith(b)` |
+| … içinde geçiyor mu | `String(a).includes(b)` |
+| … metninin N. kelimesi | Boşluklardan böl, 1'den say. Yoksa `''` |
+
+**Örnek dizilim**
+
+```text
+📨 Mesaj gelince
+└─ eğer  💬 Mesaj metni  şununla başlıyor mu  !selam
+   └─ 🌐 Gönderi gönder
+        channel_id: 📺 Kanal ID
+        text:       💬 Mesaj metni  metninin 2. kelimesi
+```
+
+**İşlev:** `!selam Ada` yazılınca bot `Ada` diye cevap verir. İkinci kelime yoksa boş metin gider.
 
 ```js
 if (String(data.message).startsWith('!selam')) {
-  console.log((String(data.message).trim().split(/\s+/)[(2) - 1] ?? ''));
+  _son = await bot.post("/!api/post/add", {
+    channel_id: data.channel_id,
+    text: (String(data.message).trim().split(/\s+/)[(2) - 1] ?? '')
+  });
 }
 ```
 
-#### Turbo gelince teşekkür
+#### Değişkenler
 
-**💸 Turbo transferi gelince** → eğer miktar `>=` `10` → **Turbo → Turbo gönder**:
+**📦 Değişkenler** Blockly'nin kendi kategorisidir. Adı sen koyarsın. Değişken, yazıldığı dosyada ve bulunduğu fonksiyonun kapsamında kalır. `yardim.js` içindeki ad `index.js` tarafından görülmez.
 
-- kullanıcı: **👤 Kullanıcı ID**
-- miktar: `1`
-- mesaj: `Teşekkürler!`
+Üretici şu adları ayırır: `data`, `bot`, `TOKEN`, `TopluyoBOT`, `err`, `require`, `console`, `_son`. Bunları değişken yapma.
 
-Miktar `#` ile işaretli olduğu için düz sayı tırnaksız yazılır. Kullanıcı kimliği bir veri bloğu olduğu için ifade olarak kalır.
+Blockly, değişken tanımını (`var ad;`) üretilen kodun başına, şapkalardan önce koyar. Atama, takıldığın yerde durur. Önizleme kesin metindir.
+
+**Örnek dizilim**
+
+```text
+📨 Mesaj gelince
+├─ değişken ata  selam  =  💬 Mesaj metni
+└─ 🖨️ Konsola yaz
+     └─ değişken oku  selam
+```
+
+**İşlev:** Gelen metni `selam` içine alır, hemen ardından konsola basar. Başka bir şapka bu `selam` değerini görmez.
+
+#### Yardımcı
+
+| Blok | Kod |
+|---|---|
+| 🖨️ Konsola yaz | `console.log(...)` |
+| ⏱️ Bekle | `await new Promise(r => setTimeout(r, (saniye) * 1000))` |
+| 📦 Son API yanıtı | `_son` |
+| 📦 Son yanıtın … alanı | `_son ? _son[alan] : undefined` |
+
+Bekle saniye cinsindendir. Zamanlayıcı da saniyedir ama o `setInterval`'dır, bir kezlik bekleme değil. Aralık süreç kapanana kadar sürer.
+
+**Örnek dizilim**
+
+```text
+📨 Mesaj gelince
+└─ eğer  💬 Mesaj metni  =  !bekle
+   ├─ ⏱️ Bekle  2
+   └─ 🌐 Gönderi gönder
+        channel_id: 📺 Kanal ID
+        text:       geldim
+```
+
+**İşlev:** `!bekle` yazılınca 2 saniye durur, sonra aynı kanala `geldim` yazar.
+
+```js
+if (data.message == '!bekle') {
+  await new Promise(r => setTimeout(r, (2) * 1000));
+  _son = await bot.post("/!api/post/add", { channel_id: data.channel_id, text: 'geldim' });
+}
+```
+
+### Üretilen kod
+
+`index.js` her zaman bu iskeletle başlar. Ek dosyalar `require` ile, şapkalardan **önce** yüklenir. Şapkaların kodu alta eklenir.
+
+```js
+// index.js — Botluyo ile oluşturuldu
+const TopluyoBOT = require('topluyo-bot');
+const TOKEN = require('./.token.json');
+const bot = TopluyoBOT(TOKEN);
+let _son;
+
+bot.on('connected', () => console.log('Bot bağlandı ✅'));
+bot.on('auth_problem', () => console.error('Token geçersiz! "Cihazlarım" bölümünden yenisini alın.'));
+bot.on('error', (err) => console.error('Hata:', err));
+
+require('./yardim.js')(bot);
+
+// şapkalar buradan sonra
+```
+
+Mesaj şapkası:
+
+```js
+bot.on('message', async (data) => {
+  if (data.action === 'post/add') {
+    try {
+      // gövde
+    } catch (err) {
+      console.error('Blok hatası:', err);
+    }
+  }
+});
+```
+
+Bağlanma `bot.on('connected', async () => { try { ... } catch ... })` olur. Alanı 60 olan zamanlayıcı `setInterval(async () => { try { ... } catch ... }, 60000)` olur.
+
+`auth_problem` gelirse kütüphane yeniden bağlanmaz. Token'ı Cihazlarım'dan yenile. `error` soket hatasıdır. Kopunca yeniden deneme `topluyo-bot`'un işidir.
+
+**Örnek dizilim**
+
+Hızlı başlangıçtaki `!merhaba` botu, başka dosya yokken `index.js` olarak şöyle biter. Üstteki şablon aynen durur, alta yalnız bu dinleyici eklenir.
+
+```js
+bot.on('message', async (data) => {
+  if (data.action === 'post/add') {
+    try {
+      if (data.message == '!merhaba') {
+        _son = await bot.post("/!api/post/add", { channel_id: data.channel_id, text: 'Merhaba!' });
+      }
+    } catch (err) {
+      console.error('Blok hatası:', err);
+    }
+  }
+});
+```
+
+**İşlev:** Şablon bağlanınca `Bot bağlandı ✅` yazar. Ardından bu dinleyici `!merhaba` mesajına cevap verir. İkisi ayrı dinleyicidir.
+
+### Çoklu dosya
+
+`index.js` her zaman vardır, silinemez. **＋ Dosya** ad sorar. Ad küçülür, `çğıöşü` → `cgiosu` olur, `.js` bir kez eklenir. `index.js` ve kullanılan ad reddedilir.
+
+Ek dosya şöyle çıkar:
+
+```js
+// yardim-menusu.js — Botluyo ile oluşturuldu
+module.exports = (bot) => {
+  let _son;
+  // bu dosyanın şapkaları, iki boşluk içeride
+};
+```
+
+Dosyalar birbirinin değişkenini ve `_son` değerini görmez. Ortak olan tek nesne `bot`'tur. Ortak bellek için **Park** (`park/set`, `park/list`, `park/del`) ya da tek dosya. Sekme değişince açık tuval Blockly serileştirmesiyle saklanır.
+
+**Örnek dizilim**
+
+`index.js` boş kalır. `yardim.js`:
+
+```text
+📨 Mesaj gelince
+└─ eğer  💬 Mesaj metni  =  !yardim
+   └─ 🌐 Gönderi gönder
+        channel_id: 📺 Kanal ID
+        text:       komutlar: !yardim
+```
+
+**İşlev:** `index.js` bu dosyayı `require('./yardim.js')(bot)` ile yükler. `!yardim` yazılınca yardım metni aynı kanala gider. `index.js` içindeki `_son` ile `yardim.js` içindeki `_son` ayrıdır.
+
+### ZIP
+
+ZIP tarayıcıda, harici kütüphane olmadan kurulur. Sıkıştırmasızdır, UTF-8 ad ve CRC32 vardır. İndirilen ad her zaman `topluyo-bot.zip`.
+
+| Dosya | İçerik |
+|---|---|
+| `index.js` | Şablon + şapkaların |
+| `*.js` | Varsa diğer modüller |
+| `package.json` | `topluyo-bot-projesi`, `npm start` → `node index.js`, Node `>=18`, bağımlılık `topluyo-bot` @ `latest` |
+| `.token.json` | Girdiğin token ya da `"BURAYA_TOKENINIZI_YAZIN"` |
+| `.gitignore` | `.token.json`, `node_modules/` |
+| `README.md` | Üç satırlık çalıştırma notu. Bu deponun belgesi değil |
+
+`latest` sabit değildir. Yayınlayacağın botta, kurduğun sürümü `package.json` içine yaz.
+
+### Hazır botlar
+
+Her birinde dizilim, işlev ve üreticinin ilgili parçası var. Tam dosya, şablon + bu parça.
+
+#### Kapıdaki karşılama
+
+```text
+➕ Gruba biri katılınca
+└─ 🌐 Gönderi gönder
+     channel_id: 12345
+     text:       Hoş geldin
+```
+
+**İşlev:** Birisi gruba girince `12345` numaralı kanala `Hoş geldin` yazar. Katılma olayında kanal kimliği gelmez, numarayı sen yazarsın. Sayı alanı olduğu için `12345` tırnaksız çıkar.
+
+```js
+bot.on('message', async (data) => {
+  if (data.action === 'group/join') {
+    try {
+      _son = await bot.post("/!api/post/add", { channel_id: 12345, text: 'Hoş geldin' });
+    } catch (err) {
+      console.error('Blok hatası:', err);
+    }
+  }
+});
+```
+
+#### Turbo teşekkür
+
+```text
+💸 Turbo transferi gelince
+└─ eğer  💰 Turbo miktarı  ≥  10
+   └─ 🌐 Turbo gönder
+        user_id:  👤 Kullanıcı ID
+        quantity: 1
+        message:  Teşekkürler!
+```
+
+**İşlev:** 10 veya daha fazla Turbo gelince gönderene 1 Turbo ve `Teşekkürler!` notu döner. `quantity` sayı alanıdır. `user_id` veri bloğu olduğu için ifade olarak kalır.
 
 ```js
 bot.on('message', async (data) => {
@@ -422,15 +571,22 @@ bot.on('message', async (data) => {
 });
 ```
 
-#### Gruba katılana duyuru
+#### Özel mesaj yankısı
 
-Katılma olayında kanal kimliği gelmez. **Gönderi gönder** bloğunun kanal alanına kendi kanal numaranı yaz.
+```text
+💬 Özel mesaj gelince
+└─ 🌐 Özel mesaj gönder
+     user_id: 👤 Kullanıcı ID
+     message: 💬 Mesaj metni
+```
+
+**İşlev:** Bota yazılan özel mesajı aynen geri yollar.
 
 ```js
 bot.on('message', async (data) => {
-  if (data.action === 'group/join') {
+  if (data.action === 'message/send') {
     try {
-      _son = await bot.post("/!api/post/add", { channel_id: 12345, text: 'Hoş geldin' });
+      _son = await bot.post("/!api/message/send", { user_id: data.user_id, message: data.message });
     } catch (err) {
       console.error('Blok hatası:', err);
     }
@@ -438,51 +594,50 @@ bot.on('message', async (data) => {
 });
 ```
 
-#### Form alanı
+#### Dakikalık saat
 
-**📋 Form gönderilince** içine **Form alanı** tak, alan adına formda kullandığın anahtarı yaz. Butonun yazısı **🔘 Form buton etiketi**dir (`data.message.submit`).
-
-```js
-console.log(data.message.form['ad']);
-console.log(data.message.submit);
+```text
+⏰ Her 60 saniyede bir
+├─ 🌐 Sunucu saatini getir
+└─ 🖨️ Konsola yaz
+     └─ 📦 Son API yanıtı
 ```
 
-#### Son API yanıtını kullanmak
-
-**Test → Sunucu saatini getir** bloğunun hemen altına **🖨️ Konsola yaz**, içine **📦 Son API yanıtı**.
+**İşlev:** Her 60 saniyede `/!api/test/time` çağırır ve yanıtı basar. `data` yoktur. Bu `message` dinleyicisi değildir.
 
 ```js
-_son = await bot.post("/!api/test/time", {});
-console.log(_son);
+setInterval(async () => {
+  try {
+    _son = await bot.post("/!api/test/time", {});
+    console.log(_son);
+  } catch (err) {
+    console.error('Blok hatası:', err);
+  }
+}, 60000);
 ```
-
-Alanı yoksa gövde boş nesnedir `{}`. Belirli bir alanı istiyorsan **Son yanıtın … alanı** bloğuna alanın adını yaz.
-
-#### Dakikada bir
-
-**⏰ Her 60 saniyede bir** şapkasının içine aynı saat çağrısını koy. Bu bir `message` dinleyicisi değildir, `data` kullanma.
 
 ### Token ve güvenlik
 
-- Token bir cihaz anahtarıdır. Sohbete, ekran görüntüsüne, issue'ya yapıştırma.
-- Repodaki ve ZIP'teki `.gitignore`, `.token.json` dosyasını dışlar. Yine de `git status` ile sızmadığını kontrol et.
-- **Tokenli indir**, token'ı yalnız o ZIP'e yazar. Ağ isteği atmaz, `localStorage`'a token koymaz.
-- Token penceresindeki alan parola kutusudur. İndirme bitince temizlenir.
-- Sızdıysa Cihazlarım'dan yenile. Eski anahtar `auth_problem` ile düşer.
-- Üretilen bot, token'ın sahibinin yetkisiyle `/!api` çağırır. Silme, atma, Turbo gönderme blokları gerçek işlemdir.
+- Token cihaz anahtarıdır. Sohbete, görüntüye, issue'ya yapıştırma.
+- Repodaki ve ZIP'teki `.gitignore` `.token.json` dosyasını dışlar. Yine de `git status` bak.
+- **Tokenli indir** token'ı yalnız o ZIP'e yazar. İstek atmaz.
+- Alan parola kutusudur, indirme bitince temizlenir.
+- Sızdıysa Cihazlarım'dan yenile. Eski anahtar `auth_problem` verir.
+- Üretilen bot, token sahibinin yetkisiyle çağrı yapar. Silme, atma ve Turbo gerçek işlemdir.
 
 ### Kayıt
 
-Tuval her değişimden yaklaşık 200 ms sonra `localStorage` anahtarı `botluyo-v2` altına yazılır. Kayıt, dosya listesini, seçili dosyayı ve Blockly çalışma alanının serileştirilmiş halini tutar.
+Tuval, değişimden yaklaşık 200 ms sonra `localStorage` anahtarı `botluyo-v2` altına yazılır. Dosya listesi, seçili dosya ve Blockly çalışma alanı durur.
 
-- Yalnızca bu tarayıcı, bu köken. `file://` ile `http://127.0.0.1` ayrı depolardır.
-- Başka bilgisayara taşımak için ZIP indirmen gerekir. Ayrı bir proje JSON'u içe/dışa aktarma düğmesi yoktur.
-- Depolama dolarsa kayıt sessizce başarısız olur. Kod önizlemen durmaz, ama sayfayı yenileyince tuval eski kalabilir.
-- Eski bir kayıtta `index.js` yoksa yok sayılır.
+- Yalnızca bu tarayıcı ve bu köken. `file://` ile Pages adresi ayrı depolardır.
+- Başka makineye ZIP ile gidersin. Proje JSON'u içe veya dışa aktarma düğmesi yoktur.
+- Depo dolarsa kayıt sessizce kaçar. Önizleme sürer, yenileyince tuval eski kalabilir.
+- `index.js` içermeyen eski kayıt yok sayılır.
+- ZIP tuvalin dizilimini saklamaz, yalnız üretilmiş kaynağı saklar.
 
 ### API listesinin tamamı
 
-Kaynak `api.js`. Biçim: `#alan` sayı, işaretsiz alan metin veya serbest değer. Boş alanlar çağrıya girmez. Grupları açmak için başlığa tıkla. Blok adları araç kutusundaki Türkçe yazılardır.
+Kaynak `api.js`. `#alan` sayıdır. İşaretsiz alan metin ya da serbest değerdir. Boş alan çağrıya girmez. Başlığa tıklayınca grup açılır.
 
 **Summary:**
 <b>Şikayet</b> — 1 uç nokta
@@ -744,66 +899,82 @@ Kaynak `api.js`. Biçim: `#alan` sayı, işaretsiz alan metin veya serbest değe
 
 ### API tablosunu güncellemek
 
-`api.js` içindeki şablon dizeden başka bir yere uç nokta yazmana gerek yoktur. Sayfa açılışında `app.js` bu metni böler, her satır için bir Blockly bloğu ve bir üretici tanımlar.
+Uç noktayı yalnız `api.js` içindeki şablon dizeye yaz. Sayfa açılınca `app.js` her satır için bir blok ve bir üretici kurar.
 
-```
+```text
 ## Grup adı|renk tonu
-yol|Türkçe blok adı|alan1,#sayisalAlan,alan3
+yol|Türkçe blok adı|alan1,#sayisalAlan
 ```
 
-- `##` satırı yeni bir araç kutusu grubu açar. Renk, Blockly hue değeridir (0–360).
-- Yol, `/!api/` önekine eklenir. Blok tipi `api_` + yolun `/` yerine `_` konmuş halidir.
-- Alan listesi boş olabilir. Virgülle ayrılır, boşluk koyma.
-- `#` yalnızca o alanın düz sayı yazıldığında tırnaksız basılması içindir.
+- `##` yeni araç kutusu grubudur. Renk, Blockly hue değeridir (0–360).
+- Yolun önüne `/!api/` gelir. Blok tipi `api_` + yol, `/` yerine `_`.
+- Alan listesi boş olabilir. Virgül koy, boşluk koyma.
+- `#` yalnız şunu yapar: değer düz sayıysa tırnaksız bas.
 
-Resmi liste [topluyo.com/!api](https://topluyo.com/!api) adresindedir. Bir yolu ekledikten veya sildikten sonra sayfayı yenile. Eski tuvalde duran, tipi silinmiş bir blok yüklenemeyebilir. Onu çöpe atman gerekir.
+**Örnek dizilim**
+
+`api.js` içine şu satır eklenirse:
+
+```text
+## Deneme|200
+deneme/echo|Yankıla|text
+```
+
+Sayfayı yeniledikten sonra araç kutusunda **Deneme → Yankıla** belirir. Bir mesaj şapkasının içine takıp `text` yuvasına `selam` yazınca üretici şunu basar:
+
+```js
+_son = await bot.post("/!api/deneme/echo", { text: 'selam' });
+```
+
+**İşlev:** Bu hayali uç, dizimin nasıl bloğa döndüğünü gösterir. Gerçek yol [topluyo.com/!api](https://topluyo.com/!api) listesinde yoksa çağrı hata verir. Sayfayı yenile. Eski tuvalde tipi silinmiş blok yüklenemeyebilir, onu çöpe at.
 
 ### Sınırlar
 
-- Editör bot çalıştırmaz, WebSocket açmaz, Topluyo'ya giriş yapmaz.
-- Blockly CDN'den gelir: `blockly_compressed.js`, `blocks_compressed.js`, `javascript_compressed.js`, `msg/tr.js` ve `media/` altındaki ikonlar. Sürüm sabittir: 10.4.3. Çevrimdışı açılırsa tuval boş kalır.
-- Uyarı, veri bloğunu yanlış olayda kullanırsan kodu silmez. İfade yine de yazılır. Uyarıyı ciddiye al. Aksi halde `data.channel_id` gibi bir alan `undefined` olur.
-- Şapkanın içindeki `try` bir JavaScript kapsamıdır. Orada açtığın `let` / Blockly değişkeni dışarı taşmaz.
-- Dosyalar birbirini çağırmaz. Yalnızca `index.js`, diğerlerini `(bot)` argümanıyla yükler.
-- Zamanlayıcı bir kez kurulur, `clearInterval` üretilmez.
-- Aynı olayı iki şapkayla dinlersen iki ayrı `bot.on` olur. İkisi de çalışır.
-- API listesi elle tutulur. Kütüphane veya site değişince `api.js` kendiliğinden güncellenmez.
-- Dışa aktarılan `package.json`, `topluyo-bot` için `latest` der. Bu, yarın farklı bir sürüm kurabileceği anlamına gelir.
-- Repoda bir `LICENSE` dosyası yoktur.
+- Editör bot çalıştırmaz, soket açmaz, Topluyo'ya girmez.
+- Blockly CDN'den gelir: `blockly_compressed.js`, `blocks_compressed.js`, `javascript_compressed.js`, `msg/tr.js`, `media/` ikonları. Sürüm 10.4.3. Çevrimdışı tuval boş kalır.
+- Uyarı, yanlış olaydaki veri bloğunu koddan silmez. `data.channel_id` o olayda yoksa `undefined` olur.
+- Şapka içindeki `try` bir kapsamdır. Orada açılan değişken dışarı çıkmaz.
+- Dosyalar birbirini çağırmaz. Yalnız `index.js` diğerlerini `(bot)` ile yükler.
+- Zamanlayıcı bir kez kurulur. `clearInterval` üretilmez.
+- Aynı olayın iki şapkası iki `bot.on` olur. İkisi de çalışır.
+- API listesi elle durur.
+- ZIP içindeki `topluyo-bot` sürümü `latest` olur.
+- Bu depoda `LICENSE` dosyası yoktur.
 
 ### Sorun giderme
 
-| Belirti | Bakılacak yer |
+| Belirti | Bak |
 |---|---|
-| Tuval bomboş, araç kutusu yok | Ağ sekmesinde jsDelivr engelli mi? Sayfayı internet varken yenile |
-| Blok sağdaki koda girmiyor | Bir şapkanın **içine** takılı değil. Uyarı metni bunu söyler |
-| Değer bloğunda sarı uyarı | O alan bu olayda yok. Yukarıdaki gelen veri tablosuna bak |
-| Konsolda `Token geçersiz!` | `.token.json` bir JSON **metni** olmalı: `"abc"`. Süslü parantezli nesne değil. Rumuz `bot` ile başlamıyor ve `bot` ile bitmiyorsa da giriş olmaz |
-| `Cannot find module 'topluyo-bot'` | Proje klasöründe `npm install` çalışmamış |
+| Tuval boş | jsDelivr engelli olabilir. İnternet varken [sayfayı](https://rid1-yilmaz.github.io/Botluyo/) yenile |
+| Blok koda girmiyor | Şapkanın içinde değil. Uyarı bunu söyler |
+| Değer bloğunda uyarı | O alan bu olayda yok. Gelen veri tablosuna bak |
+| `Token geçersiz!` | `.token.json` şöyle olmalı: `"abc"`. Nesne değil. Rumuz `bot` ile başlamıyor ve bitmiyorsa da giriş olmaz |
+| `Cannot find module 'topluyo-bot'` | Proje klasöründe `npm install` yok |
 | `npm start` hemen düşüyor | Node 18 altı. `node -v` |
-| Bot bağlandı ama cevap yok | Olay adı yanlış şapkada olabilir. `!merhaba` bir **mesaj** olayıdır, mention değil. Kanal kimliğini elle yazdıysan sayı olduğundan emin ol |
-| Turbo gitmiyor | Miktar sayı alanıdır. Metin bloğuna `1` yazmak da çalışır, çünkü `#` alanı düz sayının tırnağını söker. Değişkense değişkenin gerçekten sayı olması gerekir |
-| Sayfayı yenileyince tuval gitti | Başka köken (`file` ve `localhost` karışması) veya depolama doluluğu. ZIP hâlâ elindeyse kaynak kod duruyordur. Tuval düzeni ZIP'e yazılmaz |
-| Ek dosya `index.js` içinde yok | Dosya adı `index.js` değilse `require('./dosya.js')(bot)` satırı şablonun require bölgesine eklenir. Önizlemede `index.js` sekmesine geç |
+| Bağlandı ama cevap yok | `!merhaba` bir mesaj olayıdır, mention değil. Elle yazdığın kanal numarası sayı olmalı |
+| Turbo gitmiyor | Miktar sayı alanıdır. Metin bloğuna `1` yazmak da olur, `#` tırnağı söker. Değişkense değeri sayı olmalı |
+| Yenileyince tuval gitti | Başka köken ya da dolu depo. ZIP kaynağı tutar, dizilimi tutmaz |
+| Ek dosya `index.js` içinde yok | `index.js` sekmesine geç. `require('./dosya.js')(bot)` şablonun require bölgesindedir |
 
 ### Dosyalar
 
-```
+```text
 .
-├── index.html    # iskelet, Blockly 10.4.3 CDN, indirme penceresi
-├── style.css     # düzen, mor başlık, dar ekran kırılımı
-├── app.js        # blok tanımları, üretici, sekmeler, önizleme, ZIP
-├── api.js        # 21 grup, 132 uç nokta
-├── .gitignore    # .token.json, node_modules, log, .DS_Store
+├── index.html    # iskelet, Blockly 10.4.3, indirme penceresi
+├── style.css     # düzen, mor başlık, dar ekran
+├── app.js        # bloklar, üretici, sekmeler, önizleme, ZIP
+├── api.js        # 21 grup, 132 uç
+├── .gitignore
 └── README.md
 ```
 
-Editörün bağımlılığı bir paket dosyasında değildir. Çalıştırılan botun bağımlılığı, indirdiğin ZIP'in `package.json` dosyasındadır.
+Editörün paket dosyası yoktur. Çalışan botun bağımlılığı ZIP içindeki `package.json` dosyasındadır.
 
 ### Bağlantılar
 
+- Canlı editör: [rid1-yilmaz.github.io/Botluyo](https://rid1-yilmaz.github.io/Botluyo/)
 - Site: [topluyo.com](https://topluyo.com)
-- Bot kütüphanesi: [topluyo/TopluyoBOTJS](https://github.com/topluyo/TopluyoBOTJS) (`npm install topluyo-bot`)
+- Kütüphane: [topluyo/TopluyoBOTJS](https://github.com/topluyo/TopluyoBOTJS)
 - HTTP API: [topluyo.com/!api](https://topluyo.com/!api)
 - Blockly: [developers.google.com/blockly](https://developers.google.com/blockly)
 
@@ -813,20 +984,29 @@ Editörün bağımlılığı bir paket dosyasında değildir. Çalıştırılan 
 
 [Türkçe](#türkçe) · [English](#english)
 
-A block editor for designing a [Topluyo](https://topluyo.com) bot without writing code by hand. Drag blocks, watch the Node.js source appear on the right, then download a ready-to-run project ZIP.
+A block editor for building a [Topluyo](https://topluyo.com) bot without writing the script by hand. Live app: [rid1-yilmaz.github.io/Botluyo](https://rid1-yilmaz.github.io/Botluyo/)
 
-When the bot runs, it connects through the [`topluyo-bot`](https://github.com/topluyo/TopluyoBOTJS) library. The editor itself is not a server. The browser only generates code.
+Snap blocks together, read the Node.js on the right, download a ZIP. The bot connects with [`topluyo-bot`](https://github.com/topluyo/TopluyoBOTJS). The editor does not run the bot. It only generates code.
+
+Block titles below stay Turkish, because that is the text in the toolbox.
 
 ### Contents
 
-- [What it does](#what-it-does)
+- [What it is](#what-it-is)
 - [Quick start](#quick-start)
 - [Interface](#interface)
-- [Blocks](#blocks)
+- [Blocks](#blocks-1)
+- [Listen](#listen)
+- [Incoming values](#incoming-values)
+- [API](#api-1)
+- [Logic, loops, math](#logic-loops-math)
+- [Text](#text)
+- [Variables](#variables)
+- [Helpers](#helpers)
 - [Generated code](#generated-code)
 - [Multiple files](#multiple-files)
-- [ZIP export](#zip-export)
-- [Examples](#examples-1)
+- [ZIP](#zip-1)
+- [Ready-made bots](#ready-made-bots)
 - [Token and safety](#token-and-safety)
 - [Saving](#saving)
 - [Full API list](#full-api-list)
@@ -835,34 +1015,29 @@ When the bot runs, it connects through the [`topluyo-bot`](https://github.com/to
 - [Troubleshooting](#troubleshooting)
 - [Files](#files)
 
-### What it does
+Under every heading that explains code: a **stack** (which block sits inside which), what the bot **does**, then the source the generator emits.
 
-Botluyo is a Topluyo bot IDE built on [Blockly 10.4.3](https://developers.google.com/blockly). Every toolbox block is turned into JavaScript by the generator in `app.js`.
+### What it is
 
-It can:
+Botluyo is a Topluyo bot IDE on [Blockly 10.4.3](https://developers.google.com/blockly). `app.js` turns each toolbox block into JavaScript.
 
-- Listen for a message, mention, form submit, private message, Turbo transfer, and group join, leave, or kick
-- Run a hat block once when the bot connects, and a timer in seconds
-- Read the user, channel, message, group, post, form field, and Turbo fields from the event
-- Call the **132 endpoints** of the [Topluyo API](https://topluyo.com/!api) that are snapshotted in `api.js`
-- Use Blockly's logic, loop, math, text, and variable blocks
-- Keep a project split across several `.js` files
-- Show the open file's source live in the side panel
-- Warn, before code generation, when a block is in the wrong place
-- Download a ZIP with `index.js`, extra modules, `package.json`, `.token.json`, `.gitignore`, and a short `README.md`
-- Autosave the workspace in this browser
+- Listens for a message, mention, form, private message, Turbo transfer, and group join, leave, or kick.
+- Runs once on connect, or on a timer in seconds.
+- Reads user, channel, message, group, post, form, and Turbo fields off the event.
+- Calls the **132** [Topluyo API](https://topluyo.com/!api) endpoints snapshotted in `api.js`.
+- Uses logic, loops, math, text, and variables.
+- Splits a project across several `.js` files.
+- Warns before a misplaced block is emitted.
+- Downloads a ZIP with `index.js`, modules, `package.json`, `.token.json`, `.gitignore`, and a short run note.
+- Autosaves the canvas in this browser.
 
-It does not:
-
-- Run the bot in the browser. Unzip the project and run it with Node.js 18+.
-- Send the token anywhere. The token is written into `.token.json` only if you choose **Tokenli indir**.
-- Stay in sync by itself. `api.js` is a snapshot. A new Topluyo endpoint does not appear until you add it.
+It does not run the bot in the browser, does not upload the token, and does not refresh `api.js` when Topluyo adds an endpoint.
 
 ```mermaid
 flowchart LR
   subgraph browser [Browser]
     B[Blockly canvas]
-    A[api.js table]
+    A[api.js]
     G[app.js generator]
   end
   B --> G
@@ -875,26 +1050,12 @@ flowchart LR
 
 ### Quick start
 
-The editor needs no npm install, no build, and no account. Blockly is loaded from jsDelivr, so the page needs a network while it is open.
+Open [rid1-yilmaz.github.io/Botluyo](https://rid1-yilmaz.github.io/Botluyo/).
 
-```bash
-git clone https://github.com/RID1-YILMAZ/Botluyo.git
-cd Botluyo
-```
-
-Open `index.html` in a browser. A tiny static server also works:
-
-```bash
-python3 -m http.server 8080
-```
-
-Then open `http://127.0.0.1:8080`.
-
-1. Pull an event block from **🎧 Dinle**.
-2. Snap the work inside it. Blocks left loose are not written into the file.
-3. Check warnings and source in the preview.
-4. Download the ZIP with **📦 Botu Hazırla**.
-5. Run the project:
+1. Pull an event from **🎧 Dinle** and snap the work inside it. A loose block is not written out.
+2. Read the warning and the source in the side panel.
+3. **📦 Botu Hazırla** downloads the ZIP.
+4. Run it:
 
 ```bash
 unzip topluyo-bot.zip -d my-bot
@@ -909,261 +1070,19 @@ npm start
 "PUT_YOUR_TOKEN_HERE"
 ```
 
-To bake the token in before download, use **🔑 Tokenli indir** in the dialog.
+**🔑 Tokenli indir** writes the token into that ZIP before download. The nick must **start or end** with `bot` (`botMuzo`, `MuzoBot`). Create the token under **Cihazlarım**. Library: [topluyo-bot](https://github.com/topluyo/TopluyoBOTJS).
 
-The bot account nick must **start or end** with `bot` (`botMuzo`, `MuzoBot`). Create the token under **Cihazlarım** on Topluyo. See [topluyo-bot](https://github.com/topluyo/TopluyoBOTJS) for the library contract.
+**Stack**
 
-### Interface
-
-The page is two panes. Below 900px they stack, and the canvas is about two thirds of the screen.
-
-| Area | What is there |
-|---|---|
-| Header | The `🤖 Botluyo` title |
-| File tabs | `index.js`, your modules, **＋ Dosya**, and **🗑️** on every file except `index.js` |
-| Canvas | Grid, zoom controls, trashcan, wheel zoom. Start scale 0.9 |
-| **📦 Botu Hazırla** | Opens the download dialog |
-| File tree | Switches the open file. `package.json`, `.token.json`, `.gitignore`, and the exported `README.md` are listed but not editable |
-| Code preview | Generated source of the selected file only |
-
-Download dialog:
-
-- **💾 Derlenmiş dosyaları indir (.zip)** — downloads with a token placeholder
-- Token field — `type="password"`, not stored by the browser autocomplete hint
-- **🔑 Tokenli indir** — does nothing but a short toast if the field is empty
-- Close
-
-### Blocks
-
-A **hat** (event, connect, or timer) opens a listener. Blocks snapped into its body are written inside that listener. Anything outside a hat is dropped from the file and shows this warning:
-
-> Bu blok bir olay bloğunun içinde değil, koda eklenmez.
-
-If a value block is used on the wrong event, the generator still emits the expression, but the block warns. Channel id, for example, exists only on message and mention.
-
-#### Listen
-
-All of these are orange hats. Message-like events listen with `bot.on('message', ...)` and filter on `data.action`. Payload fields come from the [topluyo-bot event table](https://github.com/topluyo/TopluyoBOTJS).
-
-| Block (Turkish, as in the app) | Listener | Payload |
-|---|---|---|
-| 📨 Mesaj gelince | `data.action === 'post/add'` | `message`, `channel_id`, `user_id` |
-| 🔔 Mention (bildirim) gelince | `data.action === 'post/mention'` | `message`, `channel_id`, `user_id` |
-| 📋 Form gönderilince | `data.action === 'post/bumote'` | `message.form`, `message.submit`, `post_id`, `user_id` |
-| 💬 Özel mesaj gelince | `data.action === 'message/send'` | `message`, `user_id` |
-| 💸 Turbo transferi gelince | `data.action === 'turbo/transfer'` | `message.quantity`, `message.message`, `transfer_id`, `user_id` |
-| ➕ Gruba biri katılınca | `data.action === 'group/join'` | `group_id`, `user_id` |
-| ➖ Gruptan biri ayrılınca | `data.action === 'group/leave'` | `group_id`, `user_id` |
-| 🚪 Gruptan biri atılınca | `data.action === 'group/kick'` | `group_id`, `user_id` |
-| 🟢 Bot bağlanınca | `bot.on('connected', ...)` | no `data` |
-| ⏰ Her N saniyede bir | `setInterval(..., N * 1000)` | no `data`. Minimum 1 second, set on the block's number field |
-
-An API path with the same name is not the listener.
-
-- **Form gönderilince** listens for an incoming form submit. **Gönderi → Bumote ekle** calls `/!api/post/bumote`.
-- **Özel mesaj gelince** catches an incoming private message. **Özel mesaj → Özel mesaj gönder** calls `/!api/message/send`.
-- **Gruptan biri atılınca** reports that someone was kicked. To kick someone yourself, use **Üye → Üyeyi gruptan at** (`/!api/member/kick`).
-
-Each hat body is wrapped in its own `try/catch`. A thrown error is logged as `Blok hatası:` and the process stays up.
-
-The `index.js` template also registers a second `connected` listener that only prints `Bot bağlandı ✅`. If you add **Bot bağlanınca** as well, both run.
-
-#### Incoming values
-
-These blocks produce a value. They are not statements. They stay quiet only when snapped under the hats listed here.
-
-| Block | Code | Valid events |
-|---|---|---|
-| 👤 Kullanıcı ID (olayı yapan) | `data.user_id` | All eight message events |
-| 📺 Kanal ID | `data.channel_id` | Message, mention |
-| 💬 Mesaj metni | `data.message` | Message, mention, private message |
-| 👥 Grup ID | `data.group_id` | Join, leave, kick |
-| 🧾 Gönderi ID | `data.post_id` | Form |
-| 🔘 Form buton etiketi | `data.message.submit` | Form |
-| 📋 Form alanı | `data.message.form[field]` | Form |
-| 💰 Turbo miktarı | `data.message.quantity` | Turbo transfer |
-| 📝 Turbo notu | `data.message.message` | Turbo transfer |
-| 🔢 Transfer ID | `data.transfer_id` | Turbo transfer |
-
-The form-field block wants a value socket. Put a text block in it with the field key (`ad`, `yas`). The expression is `data.message.form['ad']`.
-
-Connect and timer hats have no `data`. Do not attach these value blocks there.
-
-#### API
-
-The **🌐 API (tüm özellikler)** category is built by reading `api.js`: 21 groups, 132 blocks. The group name and Blockly hue come from the `## Group|hue` line.
-
-Every API block is a statement and stores the response in `_son`:
-
-```js
-_son = await bot.post("/!api/post/add", { channel_id: data.channel_id, text: 'Merhaba' });
+```text
+📨 Mesaj gelince
+└─ if   💬 Mesaj metni  =  !merhaba
+   └─ 🌐 Gönderi gönder
+        channel_id: 📺 Kanal ID
+        text:       Merhaba!
 ```
 
-Field rules, exactly as the generator implements them:
-
-- An empty socket, or a value that is an empty string, is **left out** of the body.
-- Fields marked with `#` in `api.js` are numbers. A plain numeric string such as `'42'` loses its quotes and becomes `42`.
-- A variable, `data.user_id`, or any other expression is kept as-is. A numeric field is not coerced.
-- Blocks with three fields or fewer are inline. Wider blocks stack their fields.
-- Calls go through `bot.post`. `topluyo-bot` batches those calls to ease rate limits.
-
-Two blocks in **🧰 Yardımcı** read the last response:
-
-| Block | Code |
-|---|---|
-| 📦 Son API yanıtı | `_son` |
-| 📦 Son yanıtın … alanı | `_son ? _son[field] : undefined` |
-
-There is one `_son` per file. Each successful call in that file overwrites it. Another file's `_son` is invisible.
-
-The full endpoint list is in [Full API list](#full-api-list). Block titles stay Turkish because that is the toolbox text.
-
-#### Logic, loops, math
-
-These are Blockly's own blocks. The UI language comes from `msg/tr.js`.
-
-| Category | Blocks |
-|---|---|
-| 🔀 Mantık | if, compare, and/or, not, true/false |
-| 🔁 Döngü | repeat, while/until, break / continue |
-| 🔢 Matematik | number, arithmetic, random int, modulo |
-
-Comparison operators are whatever the Blockly JavaScript generator emits (`==`, `>`, `>=`, and so on). An if snaps inside a hat or inside another if.
-
-Loops run inside the event's `async` function. A `while` that never ends locks that event. For a delayed repeat, use **Bekle**.
-
-#### Text
-
-| Block | Output |
-|---|---|
-| Text, join, length | Blockly's text blocks |
-| … şununla başlıyor mu | `String(a).startsWith(b)` |
-| … içinde geçiyor mu | `String(a).includes(b)` |
-| … metninin N. kelimesi | Split on whitespace, count from 1. Missing word is `''` |
-
-The word index is 1-based. The 2nd word of `!ban Ali` is `Ali`.
-
-#### Variables
-
-**📦 Değişkenler** is Blockly's standard variable category. You choose the name. A variable lives in the file and function where it is created. A variable in `yardim.js` is not visible from `index.js`.
-
-The generator reserves `data`, `bot`, `TOKEN`, `TopluyoBOT`, `err`, `require`, `console`, and `_son`. Do not use those names.
-
-#### Helpers
-
-| Block | Code |
-|---|---|
-| 🖨️ Konsola yaz | `console.log(...)` |
-| ⏱️ Bekle | `await new Promise(r => setTimeout(r, (seconds) * 1000))` |
-
-Wait is in seconds. The timer hat is also in seconds, but it is a repeating `setInterval`, not a one-shot delay. The interval runs until the process exits. Nothing emits `clearInterval`.
-
-### Generated code
-
-`index.js` always starts with this skeleton. Hat code is appended under it. Extra files are `require`d **before** the hats.
-
-```js
-// index.js — Botluyo ile oluşturuldu
-const TopluyoBOT = require('topluyo-bot');
-const TOKEN = require('./.token.json');
-const bot = TopluyoBOT(TOKEN);
-let _son;
-
-bot.on('connected', () => console.log('Bot bağlandı ✅'));
-bot.on('auth_problem', () => console.error('Token geçersiz! "Cihazlarım" bölümünden yenisini alın.'));
-bot.on('error', (err) => console.error('Hata:', err));
-
-require('./yardim.js')(bot);
-
-// ... hat blocks
-```
-
-A message-like hat becomes:
-
-```js
-bot.on('message', async (data) => {
-  if (data.action === 'post/add') {
-    try {
-      // body, indented two levels
-    } catch (err) {
-      console.error('Blok hatası:', err);
-    }
-  }
-});
-```
-
-Connect:
-
-```js
-bot.on('connected', async () => {
-  try {
-    // body
-  } catch (err) {
-    console.error('Blok hatası:', err);
-  }
-});
-```
-
-A timer whose field is 60:
-
-```js
-setInterval(async () => {
-  try {
-    // body
-  } catch (err) {
-    console.error('Blok hatası:', err);
-  }
-}, 60000);
-```
-
-On `auth_problem` the library does not reconnect. Refresh the token under Cihazlarım. `error` is a socket error. Reconnect-after-close is handled inside `topluyo-bot`.
-
-### Multiple files
-
-There is always an `index.js`. It cannot be deleted.
-
-**＋ Dosya** asks for a name. The name is lowercased, Turkish letters are folded (`çğıöşü` → `cgiosu`), and `.js` is added once even if you typed it. `index.js` and a name already in use are rejected.
-
-`yardim-menusu.js` is exported as:
-
-```js
-// yardim-menusu.js — Botluyo ile oluşturuldu
-module.exports = (bot) => {
-  let _son;
-  // this file's hats
-};
-```
-
-Files do not share variables or `_son`. The only shared object is `bot`. For shared memory, use the **Park** endpoints (`park/set`, `park/list`, `park/del`) or stay in one file.
-
-Switching tabs saves the open canvas with Blockly serialization and loads the other one.
-
-### ZIP export
-
-The ZIP is built in the browser. There is no compression library. Entries are stored uncompressed, with UTF-8 names and a CRC32.
-
-| File | Contents |
-|---|---|
-| `index.js` | Template plus your hats |
-| `*.js` | Other modules, if any |
-| `package.json` | `name`: `topluyo-bot-projesi`, `start`: `node index.js`, `engines.node`: `>=18`, dependency `topluyo-bot` at `latest` |
-| `.token.json` | The token you typed, or `"BURAYA_TOKENINIZI_YAZIN"` |
-| `.gitignore` | `.token.json` and `node_modules/` |
-| `README.md` | A three-line run note. It is not this repository's docs |
-
-The archive is always named `topluyo-bot.zip`.
-
-`topluyo-bot` is not pinned. `npm install` takes whatever is current. Pin the version you actually installed before you ship a bot.
-
-### Examples
-
-The snippets below are the shape the generator emits. The preview panel is the exact source for your canvas.
-
-#### Reply to `!merhaba`
-
-1. **📨 Mesaj gelince**
-2. Inside it, an **if**: message text `==` `!merhaba`
-3. Inside the if, **Gönderi → Gönderi gönder**: **📺 Kanal ID** in the channel socket, `Merhaba!` in `text`
+**Does:** When someone posts `!merhaba`, the bot posts `Merhaba!` in the same channel.
 
 ```js
 bot.on('message', async (data) => {
@@ -1179,34 +1098,432 @@ bot.on('message', async (data) => {
 });
 ```
 
-#### Reply to a mention
+### Interface
 
-Inside **🔔 Mention (bildirim) gelince**, post back with the channel id. To look for a word in the mention text, put **içinde geçiyor mu** in the if condition.
+Two panes. Below 900px they stack.
 
-#### Second word of a command
+| Area | What |
+|---|---|
+| Header | `🤖 Botluyo` |
+| Tabs | `index.js`, extra files, **＋ Dosya**, **🗑️** on every file except `index.js` |
+| Canvas | Grid, zoom, trash. Start scale 0.9 |
+| **📦 Botu Hazırla** | Download dialog |
+| Tree | Switches file. `package.json`, `.token.json`, `.gitignore`, and the exported `README.md` are listed, not editable |
+| Code | Generated source of the open file only |
 
-Inside the message listener:
+The dialog offers a placeholder ZIP, a password field, **Tokenli indir** (refuses an empty field), and Close. The token is never written to `localStorage`.
 
-- if: message **şununla başlıyor mu** `!selam`
-- log the **2**nd word
+### Blocks
 
-`!selam Ada` prints `Ada`.
+A **hat** (event, connect, or timer) opens a listener. Blocks snapped into its body are emitted inside that listener. Anything outside a hat is dropped, with this warning:
+
+> Bu blok bir olay bloğunun içinde değil, koda eklenmez.
+
+A value block on the wrong event is still emitted, but it warns. Read the warning. Each hat body has its own `try/catch`. Errors log as `Blok hatası:` and the process stays up.
+
+#### Listen
+
+Orange hats. Message-like events use `bot.on('message', ...)` and filter on `data.action`. Fields match the [topluyo-bot](https://github.com/topluyo/TopluyoBOTJS) event table.
+
+| Block | Listener | Payload |
+|---|---|---|
+| 📨 Mesaj gelince | `post/add` | `message`, `channel_id`, `user_id` |
+| 🔔 Mention (bildirim) gelince | `post/mention` | `message`, `channel_id`, `user_id` |
+| 📋 Form gönderilince | `post/bumote` | `message.form`, `message.submit`, `post_id`, `user_id` |
+| 💬 Özel mesaj gelince | `message/send` | `message`, `user_id` |
+| 💸 Turbo transferi gelince | `turbo/transfer` | `message.quantity`, `message.message`, `transfer_id`, `user_id` |
+| ➕ Gruba biri katılınca | `group/join` | `group_id`, `user_id` |
+| ➖ Gruptan biri ayrılınca | `group/leave` | `group_id`, `user_id` |
+| 🚪 Gruptan biri atılınca | `group/kick` | `group_id`, `user_id` |
+| 🟢 Bot bağlanınca | `bot.on('connected')` | no `data` |
+| ⏰ Her N saniyede bir | `setInterval`, minimum 1s | no `data` |
+
+An API path with the same name is not the listener.
+
+- **Form gönderilince** listens. **Gönderi → Bumote ekle** calls `/!api/post/bumote`.
+- **Özel mesaj gelince** catches an incoming DM. **Özel mesaj gönder** calls `/!api/message/send`.
+- **Gruptan biri atılınca** reports a kick. To kick someone, use **Üye → Üyeyi gruptan at** (`/!api/member/kick`).
+
+The `index.js` template also logs `Bot bağlandı ✅` on `connected`. Add **Bot bağlanınca** and both run.
+
+**Stack**
+
+```text
+🔔 Mention (bildirim) gelince
+└─ 🌐 Gönderi gönder
+     channel_id: 📺 Kanal ID
+     text:       Buyur
+```
+
+**Does:** When someone mentions the bot, it posts `Buyur` in that channel.
+
+```js
+bot.on('message', async (data) => {
+  if (data.action === 'post/mention') {
+    try {
+      _son = await bot.post("/!api/post/add", { channel_id: data.channel_id, text: 'Buyur' });
+    } catch (err) {
+      console.error('Blok hatası:', err);
+    }
+  }
+});
+```
+
+The other hats, in one line:
+
+| Stack | Does |
+|---|---|
+| 📨 Mesaj gelince → 🖨️ Konsola yaz → 💬 Mesaj metni | Prints every post |
+| 📋 Form gönderilince → 🖨️ Konsola yaz → 🔘 Form buton etiketi | Prints the button label |
+| 💬 Özel mesaj gelince → 🌐 Özel mesaj gönder, user 👤, message `oldu` | Replies `oldu` to a DM |
+| 💸 Turbo transferi gelince → 🖨️ Konsola yaz → 💰 Turbo miktarı | Prints the Turbo amount |
+| ➕ Gruba biri katılınca → 🖨️ Konsola yaz → 👤 Kullanıcı ID | Prints who joined |
+| ➖ Gruptan biri ayrılınca → 🖨️ Konsola yaz → 👥 Grup ID | Prints which group they left |
+| 🚪 Gruptan biri atılınca → 🖨️ Konsola yaz → 👤 Kullanıcı ID | Prints who was kicked |
+| 🟢 Bot bağlanınca → 🖨️ Konsola yaz → `açıldım` | Prints `açıldım` once on connect |
+| ⏰ Her 60 saniyede bir → 🌐 Sunucu saatini getir | Calls `/!api/test/time` every minute |
+
+#### Incoming values
+
+These produce a value. They are not statements. They stay quiet only on the events below.
+
+| Block | Code | Events |
+|---|---|---|
+| 👤 Kullanıcı ID | `data.user_id` | All eight message events |
+| 📺 Kanal ID | `data.channel_id` | Message, mention |
+| 💬 Mesaj metni | `data.message` | Message, mention, DM |
+| 👥 Grup ID | `data.group_id` | Join, leave, kick |
+| 🧾 Gönderi ID | `data.post_id` | Form |
+| 🔘 Form buton etiketi | `data.message.submit` | Form |
+| 📋 Form alanı | `data.message.form[field]` | Form |
+| 💰 Turbo miktarı | `data.message.quantity` | Turbo |
+| 📝 Turbo notu | `data.message.message` | Turbo |
+| 🔢 Transfer ID | `data.transfer_id` | Turbo |
+
+The form-field block wants a socket. Put a text block in it (`ad`). Output is `data.message.form['ad']`. Connect and timer hats have no `data`.
+
+**Stack**
+
+```text
+📋 Form gönderilince
+└─ if  🔘 Form buton etiketi  =  kaydet
+   └─ 🖨️ Konsola yaz
+        └─ 📋 Form alanı
+             └─ ad
+```
+
+**Does:** When the form button reads `kaydet`, print the `ad` field.
+
+```js
+bot.on('message', async (data) => {
+  if (data.action === 'post/bumote') {
+    try {
+      if (data.message.submit == 'kaydet') {
+        console.log(data.message.form['ad']);
+      }
+    } catch (err) {
+      console.error('Blok hatası:', err);
+    }
+  }
+});
+```
+
+#### API
+
+**🌐 API (tüm özellikler)** is built from `api.js`: 21 groups, 132 blocks. Each block is a statement and stores the response in `_son`.
+
+```js
+_son = await bot.post("/!api/post/add", { channel_id: data.channel_id, text: 'Merhaba' });
+```
+
+- An empty socket is left out of the body.
+- A `#` field whose value is a plain number (`'42'`) is emitted as `42`.
+- A variable or `data.user_id` stays an expression.
+- Three fields or fewer sit inline. Wider blocks stack.
+- `topluyo-bot` batches `bot.post` calls against the rate limit.
+
+Read the last response from **🧰 Yardımcı**: **📦 Son API yanıtı** is `_son`, **📦 Son yanıtın … alanı** is `_son ? _son[field] : undefined`. One `_son` per file. The next call overwrites it. Another file cannot see it.
+
+**Stack**
+
+```text
+🟢 Bot bağlanınca
+├─ 🌐 Kullanıcı ID'mi getir
+└─ 🖨️ Konsola yaz
+     └─ 📦 Son API yanıtı
+```
+
+**Does:** On connect, call `/!api/user/id` and print the object. The endpoint has no fields, so the body is `{}`.
+
+```js
+bot.on('connected', async () => {
+  try {
+    _son = await bot.post("/!api/user/id", {});
+    console.log(_son);
+  } catch (err) {
+    console.error('Blok hatası:', err);
+  }
+});
+```
+
+The full list is in the Turkish section, [API listesinin tamamı](#api-listesinin-tamamı). Names match the toolbox.
+
+#### Logic, loops, math
+
+Blockly's own blocks. The UI is Turkish via `msg/tr.js`.
+
+| Category | Blocks |
+|---|---|
+| 🔀 Mantık | if, compare, and/or, not, true/false |
+| 🔁 Döngü | repeat, while/until, break / continue |
+| 🔢 Matematik | number, arithmetic, random int, modulo |
+
+Comparisons are the operators Blockly emits (`==`, `>`, `>=`). A `while` that never ends locks that event.
+
+**Stack**
+
+```text
+📨 Mesaj gelince
+└─ if  💬 Mesaj metni  =  !ping
+   └─ 🌐 Gönderi gönder
+        channel_id: 📺 Kanal ID
+        text:       pong
+```
+
+**Does:** Post `pong` in the same channel when someone writes `!ping`.
+
+A loop, inside the same hat:
+
+```text
+repeat 3 times
+└─ 🖨️ Konsola yaz
+     └─ tik
+```
+
+**Does:** Each time that event fires, print `tik` three times. That is not a timer. For a delay, use **⏰ Her N saniyede bir**.
+
+#### Text
+
+| Block | Emits |
+|---|---|
+| Text, join, length | Blockly text blocks |
+| … şununla başlıyor mu | `String(a).startsWith(b)` |
+| … içinde geçiyor mu | `String(a).includes(b)` |
+| … metninin N. kelimesi | Split on whitespace, count from 1. Missing word is `''` |
+
+**Stack**
+
+```text
+📨 Mesaj gelince
+└─ if  💬 Mesaj metni  şununla başlıyor mu  !selam
+   └─ 🌐 Gönderi gönder
+        channel_id: 📺 Kanal ID
+        text:       2nd word of 💬 Mesaj metni
+```
+
+**Does:** `!selam Ada` makes the bot reply `Ada`. No second word means an empty post.
 
 ```js
 if (String(data.message).startsWith('!selam')) {
-  console.log((String(data.message).trim().split(/\s+/)[(2) - 1] ?? ''));
+  _son = await bot.post("/!api/post/add", {
+    channel_id: data.channel_id,
+    text: (String(data.message).trim().split(/\s+/)[(2) - 1] ?? '')
+  });
 }
 ```
 
-#### Thank a Turbo transfer
+#### Variables
 
-**💸 Turbo transferi gelince** → if quantity `>=` `10` → **Turbo → Turbo gönder**:
+**📦 Değişkenler** is Blockly's variable category. You pick the name. It lives in that file and in the function where it is set. `yardim.js` cannot see a name from `index.js`.
 
-- user: **👤 Kullanıcı ID**
-- quantity: `1`
-- message: `Teşekkürler!`
+Reserved: `data`, `bot`, `TOKEN`, `TopluyoBOT`, `err`, `require`, `console`, `_son`.
 
-Quantity is a `#` field, so a plain number is unquoted. The user id stays an expression because it comes from a value block.
+Blockly puts the declaration (`var name;`) at the top of the generated code, before the hats. The assignment sits where you snapped it. The preview is the exact text.
+
+**Stack**
+
+```text
+📨 Mesaj gelince
+├─ set variable  selam  =  💬 Mesaj metni
+└─ 🖨️ Konsola yaz
+     └─ get variable  selam
+```
+
+**Does:** Store the incoming text in `selam`, then print it. Another hat does not see that `selam`.
+
+#### Helpers
+
+| Block | Code |
+|---|---|
+| 🖨️ Konsola yaz | `console.log(...)` |
+| ⏱️ Bekle | `await new Promise(r => setTimeout(r, (seconds) * 1000))` |
+| 📦 Son API yanıtı | `_son` |
+| 📦 Son yanıtın … alanı | `_son ? _son[field] : undefined` |
+
+Wait is in seconds. The timer hat is also in seconds, but it is a repeating `setInterval`, not a one-shot. Nothing emits `clearInterval`.
+
+**Stack**
+
+```text
+📨 Mesaj gelince
+└─ if  💬 Mesaj metni  =  !bekle
+   ├─ ⏱️ Bekle  2
+   └─ 🌐 Gönderi gönder
+        channel_id: 📺 Kanal ID
+        text:       geldim
+```
+
+**Does:** On `!bekle`, wait 2 seconds, then post `geldim` in the same channel.
+
+```js
+if (data.message == '!bekle') {
+  await new Promise(r => setTimeout(r, (2) * 1000));
+  _son = await bot.post("/!api/post/add", { channel_id: data.channel_id, text: 'geldim' });
+}
+```
+
+### Generated code
+
+`index.js` always starts with this skeleton. Extra files are `require`d **before** the hats. Hat code is appended.
+
+```js
+// index.js — Botluyo ile oluşturuldu
+const TopluyoBOT = require('topluyo-bot');
+const TOKEN = require('./.token.json');
+const bot = TopluyoBOT(TOKEN);
+let _son;
+
+bot.on('connected', () => console.log('Bot bağlandı ✅'));
+bot.on('auth_problem', () => console.error('Token geçersiz! "Cihazlarım" bölümünden yenisini alın.'));
+bot.on('error', (err) => console.error('Hata:', err));
+
+require('./yardim.js')(bot);
+
+// hats follow
+```
+
+A message hat:
+
+```js
+bot.on('message', async (data) => {
+  if (data.action === 'post/add') {
+    try {
+      // body
+    } catch (err) {
+      console.error('Blok hatası:', err);
+    }
+  }
+});
+```
+
+Connect becomes `bot.on('connected', async () => { try { ... } catch ... })`. A timer set to 60 becomes `setInterval(async () => { try { ... } catch ... }, 60000)`.
+
+`auth_problem` does not reconnect. Refresh the token under Cihazlarım. `error` is a socket error. Reconnect-after-close belongs to `topluyo-bot`.
+
+**Stack**
+
+The `!merhaba` bot from Quick start, with no extra file, ends `index.js` like this. The skeleton stays, and only this listener is added under it.
+
+```js
+bot.on('message', async (data) => {
+  if (data.action === 'post/add') {
+    try {
+      if (data.message == '!merhaba') {
+        _son = await bot.post("/!api/post/add", { channel_id: data.channel_id, text: 'Merhaba!' });
+      }
+    } catch (err) {
+      console.error('Blok hatası:', err);
+    }
+  }
+});
+```
+
+**Does:** The template prints `Bot bağlandı ✅` on connect. This listener answers `!merhaba`. They are two listeners.
+
+### Multiple files
+
+`index.js` always exists and cannot be deleted. **＋ Dosya** asks for a name. It is lowercased, `çğıöşü` folds to `cgiosu`, and `.js` is added once. `index.js` and a used name are rejected.
+
+An extra file looks like this:
+
+```js
+// yardim-menusu.js — Botluyo ile oluşturuldu
+module.exports = (bot) => {
+  let _son;
+  // this file's hats, indented two spaces
+};
+```
+
+Files do not share variables or `_son`. The only shared object is `bot`. For shared memory use **Park** (`park/set`, `park/list`, `park/del`) or stay in one file. Switching tabs saves the canvas with Blockly serialization.
+
+**Stack**
+
+Leave `index.js` empty. In `yardim.js`:
+
+```text
+📨 Mesaj gelince
+└─ if  💬 Mesaj metni  =  !yardim
+   └─ 🌐 Gönderi gönder
+        channel_id: 📺 Kanal ID
+        text:       komutlar: !yardim
+```
+
+**Does:** `index.js` loads it with `require('./yardim.js')(bot)`. `!yardim` posts the help line in the same channel. The two `_son` variables are not the same.
+
+### ZIP
+
+Built in the browser, no compression library. Stored uncompressed, UTF-8 names, CRC32. The download is always `topluyo-bot.zip`.
+
+| File | Contents |
+|---|---|
+| `index.js` | Template plus your hats |
+| `*.js` | Other modules, if any |
+| `package.json` | `topluyo-bot-projesi`, `npm start` → `node index.js`, Node `>=18`, `topluyo-bot` at `latest` |
+| `.token.json` | The token you typed, or `"BURAYA_TOKENINIZI_YAZIN"` |
+| `.gitignore` | `.token.json`, `node_modules/` |
+| `README.md` | A three-line run note. Not this repo's docs |
+
+`latest` is not a pin. Before you ship, write the version you installed into `package.json`.
+
+### Ready-made bots
+
+Each one is a stack, what it does, and the piece the generator adds. The real file is the skeleton plus that piece.
+
+#### Welcome at the door
+
+```text
+➕ Gruba biri katılınca
+└─ 🌐 Gönderi gönder
+     channel_id: 12345
+     text:       Hoş geldin
+```
+
+**Does:** When someone joins a group, post `Hoş geldin` in channel `12345`. A join has no channel id, so you type the number. It is a numeric field, so `12345` is unquoted.
+
+```js
+bot.on('message', async (data) => {
+  if (data.action === 'group/join') {
+    try {
+      _son = await bot.post("/!api/post/add", { channel_id: 12345, text: 'Hoş geldin' });
+    } catch (err) {
+      console.error('Blok hatası:', err);
+    }
+  }
+});
+```
+
+#### Turbo thanks
+
+```text
+💸 Turbo transferi gelince
+└─ if  💰 Turbo miktarı  ≥  10
+   └─ 🌐 Turbo gönder
+        user_id:  👤 Kullanıcı ID
+        quantity: 1
+        message:  Teşekkürler!
+```
+
+**Does:** If 10 or more Turbo arrives, send 1 Turbo back with the note `Teşekkürler!`. `quantity` is numeric. `user_id` stays an expression.
 
 ```js
 bot.on('message', async (data) => {
@@ -1222,15 +1539,22 @@ bot.on('message', async (data) => {
 });
 ```
 
-#### Announce a join
+#### Echo a private message
 
-A join event has no channel id. Type your own channel number into **Gönderi gönder**.
+```text
+💬 Özel mesaj gelince
+└─ 🌐 Özel mesaj gönder
+     user_id: 👤 Kullanıcı ID
+     message: 💬 Mesaj metni
+```
+
+**Does:** Send the incoming DM straight back to that user.
 
 ```js
 bot.on('message', async (data) => {
-  if (data.action === 'group/join') {
+  if (data.action === 'message/send') {
     try {
-      _son = await bot.post("/!api/post/add", { channel_id: 12345, text: 'Hoş geldin' });
+      _son = await bot.post("/!api/message/send", { user_id: data.user_id, message: data.message });
     } catch (err) {
       console.error('Blok hatası:', err);
     }
@@ -1238,51 +1562,50 @@ bot.on('message', async (data) => {
 });
 ```
 
-#### Form field
+#### Clock every minute
 
-Inside **📋 Form gönderilince**, attach **Form alanı** and type the key your form uses. The button label is **🔘 Form buton etiketi** (`data.message.submit`).
-
-```js
-console.log(data.message.form['ad']);
-console.log(data.message.submit);
+```text
+⏰ Her 60 saniyede bir
+├─ 🌐 Sunucu saatini getir
+└─ 🖨️ Konsola yaz
+     └─ 📦 Son API yanıtı
 ```
 
-#### Use the last API response
-
-Put **🖨️ Konsola yaz** directly under **Test → Sunucu saatini getir**, and snap **📦 Son API yanıtı** into it.
+**Does:** Every 60 seconds, call `/!api/test/time` and print the response. There is no `data`. This is not a `message` listener.
 
 ```js
-_son = await bot.post("/!api/test/time", {});
-console.log(_son);
+setInterval(async () => {
+  try {
+    _son = await bot.post("/!api/test/time", {});
+    console.log(_son);
+  } catch (err) {
+    console.error('Blok hatası:', err);
+  }
+}, 60000);
 ```
-
-An endpoint with no filled fields sends `{}`. For one property, use **Son yanıtın … alanı** and type the property name.
-
-#### Once a minute
-
-Put that same clock call inside **⏰ Her 60 saniyede bir**. This is not a `message` listener. Do not use `data`.
 
 ### Token and safety
 
 - The token is a device key. Do not paste it into chat, a screenshot, or an issue.
-- `.gitignore` in this repo and in the ZIP ignores `.token.json`. Still check `git status`.
-- **Tokenli indir** writes the token only into that ZIP. It makes no network request and does not put the token in `localStorage`.
-- The dialog field is a password input. It is cleared after download.
+- `.gitignore` in this repo and in the ZIP ignores `.token.json`. Still look at `git status`.
+- **Tokenli indir** writes the token only into that ZIP. No request is made.
+- The field is a password input and is cleared after download.
 - If it leaks, rotate it under Cihazlarım. The old key fails with `auth_problem`.
-- The generated bot calls `/!api` with the token owner's permissions. Delete, kick, and Turbo blocks perform real actions.
+- The bot calls `/!api` as the token owner. Delete, kick, and Turbo blocks are real actions.
 
 ### Saving
 
-About 200 ms after each edit, the canvas is written to `localStorage` under `botluyo-v2`. The record stores the file list, the selected file, and the serialized Blockly workspace.
+About 200 ms after an edit, the canvas is stored in `localStorage` under `botluyo-v2`: file list, selected file, and the serialized workspace.
 
-- This browser and this origin only. `file://` and `http://127.0.0.1` are different stores.
-- To move machines, download the ZIP. There is no separate project-JSON import or export button.
-- If storage is full, the save fails silently. The preview keeps working, but a reload can restore an older canvas.
+- This browser and this origin only. `file://` and the Pages origin are different stores.
+- Move machines with the ZIP. There is no project-JSON import or export.
+- A full store fails the save quietly. The preview keeps going. A reload can bring back an older canvas.
 - A saved record without `index.js` is ignored.
+- The ZIP keeps generated source, not the block layout.
 
 ### Full API list
 
-Source of truth is `api.js`, and the expandable tables in the Turkish section above are that list: 21 groups, 132 endpoints. `#field` means number. Other fields are text or a free value. Empty sockets are omitted from the call. Block titles are the Turkish strings shown in the toolbox, so they are not translated here.
+The expandable tables in [API listesinin tamamı](#api-listesinin-tamamı) are the source, copied from `api.js`: 21 groups, 132 endpoints. A `#` field is a number. Other fields are text or a free value. Empty sockets are omitted. Block titles are the Turkish toolbox labels.
 
 | Group in the app | English | Endpoints |
 |---|---|---|
@@ -1310,57 +1633,72 @@ Source of truth is `api.js`, and the expandable tables in the Turkish section ab
 
 ### Updating the API table
 
-You do not declare endpoints anywhere except the template string in `api.js`. On load, `app.js` splits that text and defines one Blockly block and one generator per line.
+Declare endpoints only in the template string in `api.js`. On load, `app.js` defines one block and one generator per line.
 
-```
+```text
 ## Group name|hue
-path|Turkish block title|field1,#numericField,field3
+path|Turkish block title|field1,#numericField
 ```
 
-- A `##` line opens a toolbox group. The color is a Blockly hue from 0 to 360.
-- The path is prefixed with `/!api/`. The block type is `api_` plus the path with `/` replaced by `_`.
-- The field list may be empty. Separate fields with commas and no spaces.
-- `#` only means: when the value is a plain number, print it without quotes.
+- `##` opens a toolbox group. The color is a Blockly hue, 0–360.
+- The path is prefixed with `/!api/`. The block type is `api_` plus the path, `/` replaced by `_`.
+- The field list may be empty. Commas, no spaces.
+- `#` only means: if the value is a plain number, print it without quotes.
 
-The live list is [topluyo.com/!api](https://topluyo.com/!api). After you add or remove a path, reload the page. A block whose type no longer exists may fail to load from an old canvas. Drag it to the trash.
+**Stack**
+
+Add this to `api.js`:
+
+```text
+## Deneme|200
+deneme/echo|Yankıla|text
+```
+
+After a reload, **Deneme → Yankıla** shows up. Snap it inside a message hat and put `selam` in `text`. The generator prints:
+
+```js
+_son = await bot.post("/!api/deneme/echo", { text: 'selam' });
+```
+
+**Does:** This fake endpoint only shows how a line becomes a block. If the path is not on [topluyo.com/!api](https://topluyo.com/!api), the call fails. Reload after edits. A block whose type was removed may not load from an old canvas. Drag it to the trash.
 
 ### Limits
 
-- The editor does not run the bot, open a WebSocket, or log in to Topluyo.
-- Blockly comes from the CDN: `blockly_compressed.js`, `blocks_compressed.js`, `javascript_compressed.js`, `msg/tr.js`, and icons under `media/`. The version is pinned at 10.4.3. Offline, the canvas stays blank.
-- A warning does not delete a value block used on the wrong event. The expression is still emitted. Heed the warning, or `data.channel_id` and similar fields will be `undefined`.
-- The `try` inside a hat is a JavaScript scope. A `let` or Blockly variable created there does not escape it.
+- The editor does not run the bot, open a socket, or log in.
+- Blockly comes from the CDN: `blockly_compressed.js`, `blocks_compressed.js`, `javascript_compressed.js`, `msg/tr.js`, and `media/` icons. Pinned at 10.4.3. Offline, the canvas is blank.
+- A warning does not strip a value block on the wrong event. `data.channel_id` is `undefined` when that event has no channel.
+- The `try` inside a hat is a scope. A variable created there does not escape.
 - Files do not call each other. Only `index.js` loads the others as `(bot)`.
 - A timer is created once. `clearInterval` is never generated.
-- Two hats for the same event become two `bot.on` listeners. Both run.
-- The API list is maintained by hand. `api.js` does not update itself when the library or the site changes.
-- The exported `package.json` depends on `topluyo-bot` at `latest`, so a later install can resolve a different version.
+- Two hats for one event become two `bot.on` listeners. Both run.
+- The API list is maintained by hand.
+- The ZIP depends on `topluyo-bot` at `latest`.
 - This repository has no `LICENSE` file.
 
 ### Troubleshooting
 
-| Symptom | Where to look |
+| Symptom | Look |
 |---|---|
-| Blank canvas, no toolbox | Is jsDelivr blocked? Reload while online |
-| A block never shows up in the preview | It is not snapped **inside** a hat. The warning says so |
-| Yellow warning on a value block | That field does not exist on this event. See the incoming-values table |
-| Console says `Token geçersiz!` | `.token.json` must be a JSON **string**: `"abc"`. Not an object. Login also fails when the nick neither starts nor ends with `bot` |
+| Blank canvas | jsDelivr may be blocked. Reload [the page](https://rid1-yilmaz.github.io/Botluyo/) while online |
+| A block never appears in the preview | It is not inside a hat. The warning says so |
+| Warning on a value block | That field does not exist on this event |
+| `Token geçersiz!` | `.token.json` must be `"abc"`, not an object. Login also fails when the nick neither starts nor ends with `bot` |
 | `Cannot find module 'topluyo-bot'` | `npm install` was not run in the project folder |
-| `npm start` exits immediately | Node is older than 18. Check `node -v` |
-| Connected, but no reply | The hat may be the wrong event. `!merhaba` is a **message**, not a mention. If you typed a channel id, make sure it is a number |
-| Turbo is not sent | Quantity is a numeric field. Typing `1` in a text block works, because a `#` field strips quotes from a plain number. A variable must actually hold a number |
-| Canvas is gone after reload | Different origin (`file` vs `localhost`) or full storage. The ZIP still has the source. The canvas layout itself is not inside the ZIP |
-| An extra file is missing from `index.js` | Any file other than `index.js` is added as `require('./file.js')(bot)` in the template's require region. Open the `index.js` tab in the preview |
+| `npm start` exits immediately | Node is older than 18. `node -v` |
+| Connected, but no reply | `!merhaba` is a message, not a mention. A hand-typed channel id must be a number |
+| Turbo is not sent | Quantity is numeric. A text block with `1` works, because `#` strips the quotes. A variable must actually hold a number |
+| Canvas gone after reload | Different origin, or storage is full. The ZIP has the source, not the layout |
+| Extra file missing from `index.js` | Open the `index.js` tab. `require('./file.js')(bot)` sits in the template's require region |
 
 ### Files
 
-```
+```text
 .
-├── index.html    # shell, Blockly 10.4.3 from the CDN, download dialog
-├── style.css     # layout, purple header, narrow-screen breakpoint
-├── app.js        # block defs, generator, tabs, preview, ZIP
+├── index.html    # shell, Blockly 10.4.3, download dialog
+├── style.css     # layout, purple header, narrow screen
+├── app.js        # blocks, generator, tabs, preview, ZIP
 ├── api.js        # 21 groups, 132 endpoints
-├── .gitignore    # .token.json, node_modules, logs, .DS_Store
+├── .gitignore
 └── README.md
 ```
 
@@ -1368,7 +1706,8 @@ The editor has no package manifest. The bot you run depends on the `package.json
 
 ### Links
 
+- Live editor: [rid1-yilmaz.github.io/Botluyo](https://rid1-yilmaz.github.io/Botluyo/)
 - Site: [topluyo.com](https://topluyo.com)
-- Bot library: [topluyo/TopluyoBOTJS](https://github.com/topluyo/TopluyoBOTJS) (`npm install topluyo-bot`)
+- Library: [topluyo/TopluyoBOTJS](https://github.com/topluyo/TopluyoBOTJS)
 - HTTP API: [topluyo.com/!api](https://topluyo.com/!api)
 - Blockly: [developers.google.com/blockly](https://developers.google.com/blockly)
